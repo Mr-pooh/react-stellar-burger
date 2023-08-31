@@ -1,5 +1,7 @@
 import styles from "./app.module.css";
 import { data } from "../../utils/data";
+import  AppHeader  from "../header/header";
+import BurgerIngridients from "../ingridients/ingridients";
 
 function App() {
   return (
@@ -8,7 +10,11 @@ function App() {
       	margin: "auto",
       	fontSize: "1.5rem"
       }}>
-      	Измените src/components/app/app.jsx и сохраните для обновления.
+        <AppHeader />
+      	<main >
+          <BurgerIngridients data={data} />
+          
+        </main>
       </pre>
     </div>
   );

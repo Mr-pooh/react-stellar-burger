@@ -1,0 +1,34 @@
+.ingridients{
+    min-width: 600px;
+    width: min-content;
+    height: 912px;
+    overflow-y: scroll;
+    background: var(--interface-bg, #131316);
+    
+}
+
+.table {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-block: 0;
+    padding-inline-start: 0;
+    list-style-type:none;
+    justify-content: center;
+}
+
+.elem {
+    width: 272px;
+    height: 208px;
+    display: flex;
+    text-align: start;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom_text {
+    text-align: center;
+    text-wrap: wrap;
+    width: 100%;
+}
