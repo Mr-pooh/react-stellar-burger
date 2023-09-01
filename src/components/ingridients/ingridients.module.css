@@ -1,10 +1,7 @@
 .ingridients{
-    min-width: 600px;
-    width: min-content;
-    height: 912px;
-    overflow-y: scroll;
+    max-width: 600px;
+    max-height: 912px;   
     background: var(--interface-bg, #131316);
-    
 }
 
 .table {
@@ -15,6 +12,7 @@
     padding-inline-start: 0;
     list-style-type:none;
     justify-content: center;
+    column-gap: 8px;
 }
 
 .elem {
@@ -23,12 +21,26 @@
     display: flex;
     text-align: start;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    position: relative;
+    
 }
 
 .custom_text {
     text-align: center;
     text-wrap: wrap;
     width: 100%;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.tableIngridients {
+    height: fit-content;
+    overflow-y: scroll;
+    max-width: inherit;
+    max-height: inherit;
 }

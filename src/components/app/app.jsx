@@ -2,6 +2,8 @@ import styles from "./app.module.css";
 import { data } from "../../utils/data";
 import  AppHeader  from "../header/header";
 import BurgerIngridients from "../ingridients/ingridients";
+import BurgerConstructor from '../constuctorBurger/constructorBurger';
+
 
 function App() {
   return (
@@ -11,9 +13,9 @@ function App() {
       	fontSize: "1.5rem"
       }}>
         <AppHeader />
-      	<main >
+      	<main className={styles.main} >
           <BurgerIngridients data={data} />
-          
+          <BurgerConstructor data={data} />
         </main>
       </pre>
     </div>
