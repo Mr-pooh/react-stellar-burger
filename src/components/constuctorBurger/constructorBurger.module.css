@@ -35,3 +35,10 @@
     flex-direction: row;
     justify-content: flex-end;
 }
+
+.constructorItems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: inherit 
+}

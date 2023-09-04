@@ -1,5 +1,8 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
+import {ingredientPropType} from '../../../utils/prop-types.js';
+
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function IngridientsType ({elements, style, type}) {
@@ -24,4 +27,10 @@ export default function IngridientsType ({elements, style, type}) {
             {elementBun}
         </ul>
     )
+}
+
+IngridientsType.propTypes = {
+    elements: PropTypes.arrayOf(ingredientPropType).isRequired,
+    style: PropTypes.object,
+    type: PropTypes.string
 }

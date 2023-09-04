@@ -1,6 +1,11 @@
-import React from 'react'
+import React from 'react';
+
+
+import PropTypes from 'prop-types';
+import {ingredientPropType} from '../../utils/prop-types.js';
+
 import styles from "./ingridients.module.css";
-import {Tab} from "@ya.praktikum/react-developer-burger-ui-components"
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import IngridientsType from './ingridietnsType/ingridientsType';
 
@@ -34,4 +39,8 @@ export default function BurgerIngridients({data}) {
             </section>
         
       );
+}
+
+BurgerIngridients.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropType).isRequired
 }
