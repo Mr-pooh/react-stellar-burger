@@ -1,20 +1,12 @@
 import React from 'react';
-
-
 import PropTypes from 'prop-types';
-import {ingredientPropType} from '../../utils/prop-types.js';
-
 import styles from "./ingridients.module.css";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
-import IngridientsType from './ingridietnsType/ingridientsType';
-
-
-export default function BurgerIngridients({data}) {
-    const [current, setCurrent] = React.useState('Булки')
+export default function BurgerIngridients({elementBun}) {
+    const [current, setCurrent] = React.useState('Булки');
 
     return (
-          
             <section className={styles.ingridients}>
                 <h1 className="text text_type_main-large pt-10 pd-5">Соберите бургер</h1>
                 <div style={{ display: 'flex' }}>
@@ -30,17 +22,22 @@ export default function BurgerIngridients({data}) {
                 </div>
                 <div className={styles.tableIngridients + ' custom-scroll'}>
                   <h3 className='text text_type_main-medium pt-10'>Булки</h3>
-                  <IngridientsType elements={data} style={styles} type={'bun'} />
+                  <ul className={styles.table}>
+                    {elementBun('bun')}
+                  </ul>
                   <h3 className='text text_type_main-medium pt-10'>Соусы</h3>
-                  <IngridientsType elements={data} style={styles} type={'sauce'} />
+                  <ul className={styles.table}>
+                    {elementBun('sauce')}
+                  </ul>
                   <h3 className='text text_type_main-medium pt-10'>Начинки</h3>
-                  <IngridientsType elements={data} style={styles} type={'main'} />
+                  <ul className={styles.table}>
+                    {elementBun('main')}
+                  </ul>
                 </div>
             </section>
-        
       );
 }
 
 BurgerIngridients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType).isRequired
+  elementBun: PropTypes.func.isRequired
 }

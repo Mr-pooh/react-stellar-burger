@@ -6,5 +6,4 @@ export const ingredientPropType = PropTypes.shape({
   type: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired
-
 });
