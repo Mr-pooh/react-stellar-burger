@@ -31,16 +31,15 @@ export default function Modal({children, onClose}) {
 
 
     return ReactDOM.createPortal(
-        
-            <ModalOverlay onClose={onClose}>
+        <div className={styles.main}>
                 <div className={styles.modal} onClick={(event)=> event.stopPropagation()}>
                 <button className={styles.closeButton + ` pt-15 pr-10`} onClick={onClose}>
                     <CloseIcon type="primary" />
                 </button>
                 {children}
                 </div>
-            </ModalOverlay>,
-        
+                <ModalOverlay onClose={onClose} />
+        </div>,
         domPortal
     )
 }

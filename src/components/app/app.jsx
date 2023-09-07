@@ -1,5 +1,6 @@
 import React from 'react';
 import { api } from '../../utils/api';
+import { checkReponse } from '../../utils/checkResponse';
 import styles from "./app.module.css";
 import  AppHeader  from "../header/header";
 import BurgerIngridients from "../ingridients/ingridients";
@@ -28,7 +29,7 @@ function App() {
     const apiInitial = () => {
       setAppState({ ...appState, loading: true, hasError: false });
       fetch(api)
-        .then(res => res.json())
+        .then(checkReponse)
         .then((res) => {
           setAppState({
             ...appState,
@@ -96,10 +97,7 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <pre style={{
-      	margin: "auto",
-      	fontSize: "1.5rem"
-      }}>
+      <pre className={styles.pre}>
 
       {isLoading && 'Загрузка...'}
         {hasError && 'Произошла ошибка'}
