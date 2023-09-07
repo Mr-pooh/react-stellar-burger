@@ -3,6 +3,7 @@
     display: flex;
     min-width: 720px;
     justify-content: center;
+    text-align: center;
     align-items: center;
     position: absolute;
     border-radius: 40px;
@@ -21,9 +22,6 @@
     width: -webkit-fill-available;
 }
 
-.modal.active{
-   
-}
 
 .closeButton {
     width: 24px;

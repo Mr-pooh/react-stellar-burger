@@ -4,8 +4,27 @@ import {ingredientPropType} from '../../utils/prop-types.js';
 import styles from './constructorBurger.module.css';
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import SelectedElement from './selectedElement/selectedElement';
+import Modal from '../modal/modal.jsx';
+import OrderDetails from '../orderDetails/orderDetails.jsx';
 
-export default function BurgerConstructor({data, openModal}) {
+export default function BurgerConstructor({data}) {
+
+    const [modalActive, setModalActive] = React.useState(false)
+    
+    const open = () => {
+       setModalActive(true)
+    }
+
+    const onClose = () => {
+        setModalActive(false)
+    }
+
+    React.useEffect(() => {
+        return () => {
+            document.removeEventListener('click',onClose)
+        }
+    })
+
 
     return (
         <section className={styles.constructorBurger + ` text pt-25 ml-10`}>
@@ -33,16 +52,18 @@ export default function BurgerConstructor({data, openModal}) {
                 </div>
                 <div className={styles.summ + ` mt-10`}>
                     <p className='text text_type_digits-medium pr-10'>610<CurrencyIcon type="primary" /></p>
-                    <Button htmlType="button" type="primary" size="medium" onClick={openModal}>
+                    <Button htmlType="button" type="primary" size="medium" onClick={open}>
                         Оформить заказ
                     </Button>
                 </div>
             </div>
+            {modalActive && 
+                <Modal onClose={onClose}><OrderDetails /></Modal>
+            }
         </section>
     )
 }
 
 BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropType).isRequired,
-    openModal: PropTypes.func.isRequired
+    data: PropTypes.arrayOf(ingredientPropType).isRequired
 }

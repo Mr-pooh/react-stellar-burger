@@ -2,9 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from "./ingridients.module.css";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import IngridientsType from './ingridietnsType/ingridientsType';
+import { ingredientPropType } from '../../utils/prop-types';
 
-export default function BurgerIngridients({elementBun}) {
+export default function BurgerIngridients({data}) {
     const [current, setCurrent] = React.useState('Булки');
+
+    const elementBun = type => data.map(item => {
+      return(     
+        (item.type === type) &&
+        <IngridientsType item={item} key={item._id} />
+      )
+    })
+    
 
     return (
             <section className={styles.ingridients}>
@@ -39,5 +49,5 @@ export default function BurgerIngridients({elementBun}) {
 }
 
 BurgerIngridients.propTypes = {
-  elementBun: PropTypes.func.isRequired
+  data: PropTypes.arrayOf(ingredientPropType).isRequired
 }
