@@ -1,0 +1,46 @@
+.ingridients{
+    max-width: 600px;
+    max-height: 912px;   
+    background: var(--interface-bg, #131316);
+}
+
+.table {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-block: 0;
+    padding-inline-start: 0;
+    list-style-type:none;
+    justify-content: center;
+    column-gap: 8px;
+}
+
+.elem {
+    width: 272px;
+    height: 208px;
+    display: flex;
+    text-align: start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    
+}
+
+.custom_text {
+    text-align: center;
+    text-wrap: wrap;
+    width: 100%;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.tableIngridients {
+    height: fit-content;
+    overflow-y: scroll;
+    max-width: inherit;
+    max-height: inherit;
+}

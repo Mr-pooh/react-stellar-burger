@@ -1,0 +1,10 @@
+.header {
+    display: flex;
+    width: 1920px;
+    height: 88px;
+    
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    background: var(--interface-modal-bg, #1C1C21);
+}
