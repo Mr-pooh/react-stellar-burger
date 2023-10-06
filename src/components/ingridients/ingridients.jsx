@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styles from "./ingridients.module.css";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientsType from './ingridietnsType/ingridientsType';
 import { ingredientPropType } from '../../utils/prop-types';
+import { BurgerIngridientsContext } from '../services/burgerIngridientsContext';
 
-export default function BurgerIngridients({data}) {
+export default function BurgerIngridients() {
+
+    const data = useContext(BurgerIngridientsContext)
+
+    
+
     const [current, setCurrent] = React.useState('Булки');
 
     const elementBun = type => data.map(item => {
@@ -47,7 +53,7 @@ export default function BurgerIngridients({data}) {
             </section>
       );
 }
-
-BurgerIngridients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType).isRequired
-}
+//
+//BurgerIngridients.propTypes = {
+//  data: PropTypes.arrayOf(ingredientPropType).isRequired
+//}

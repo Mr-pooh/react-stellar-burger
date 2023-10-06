@@ -6,14 +6,37 @@ import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-de
 import SelectedElement from './selectedElement/selectedElement';
 import Modal from '../modal/modal.jsx';
 import OrderDetails from '../orderDetails/orderDetails.jsx';
+import { BurgerConstructorContext } from '../services/burgerConstructorContext.jsx';
+import { BurgerIngridientsContext } from '../services/burgerIngridientsContext.jsx';
 
-export default function BurgerConstructor({data}) {
 
+const startSumm = {price: 0}
+
+const reducer = (state, summ) => {
+    switch(summ.type){
+        case state.bun:
+            return {price: 2 * state.price};
+        case state.ingridients:
+            summ.ingridients.map((item)=> {
+                return {price: item + state.price}
+
+            })
+    }
+}
+
+export default function BurgerConstructor() {
+
+    const {elemConstr} = React.useContext(BurgerConstructorContext)
+    
     const [modalActive, setModalActive] = React.useState(false)
+
+    const [stater, dispatch] = React.useReducer(reducer, startSumm)
     
     const open = () => {
-       setModalActive(true)
+       setModalActive(true);
+       dispatch(elemConstr)
     }
+    console.log()
 
     const onClose = () => {
         setModalActive(false)
@@ -25,33 +48,41 @@ export default function BurgerConstructor({data}) {
         }
     })
 
+   
+    
+
+    console.log(elemConstr)
 
     return (
         <section className={styles.constructorBurger + ` text pt-25 ml-10`}>
             <div className={styles.constructorItems + ' pl-4'}>
                 <div className={styles.list + ` text ml-8`}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price={200}
-                        thumbnail={data[0].image}
-                    />
+                    {elemConstr.bun &&
+                        <ConstructorElement
+                            type="top"
+                            isLocked={true}
+                            text={elemConstr.bun.name + ` (верх)`}
+                            price={elemConstr.bun.price}
+                            thumbnail={elemConstr.bun.image}
+                        />
+                    }
                 </div>
                 <div className={styles.ingridientsSelect + ` custom-scroll`}>
-                    <SelectedElement data={data} />
+                    <SelectedElement data={elemConstr.ingridients} />
                 </div>
                 <div className={styles.list + ` text ml-8`}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text="Краторная булка N-200i (низ)"
-                        price={200}
-                        thumbnail={data[0].image}
-                    />
+                    {elemConstr.bun &&
+                        <ConstructorElement
+                            type="bottom"
+                            isLocked={true}
+                            text={elemConstr.bun.name + ` (низ)`}
+                            price={elemConstr.bun.price}
+                            thumbnail={elemConstr.bun.image}
+                        />
+                    }
                 </div>
                 <div className={styles.summ + ` mt-10`}>
-                    <p className='text text_type_digits-medium pr-10'>610<CurrencyIcon type="primary" /></p>
+                    <p className='text text_type_digits-medium pr-10'>0<CurrencyIcon type="primary" /></p>
                     <Button htmlType="button" type="primary" size="medium" onClick={open}>
                         Оформить заказ
                     </Button>
@@ -63,7 +94,7 @@ export default function BurgerConstructor({data}) {
         </section>
     )
 }
-
-BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropType).isRequired
-}
+//
+//BurgerConstructor.propTypes = {
+//    data: PropTypes.arrayOf(ingredientPropType).isRequired
+//}

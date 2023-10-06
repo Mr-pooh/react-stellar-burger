@@ -6,9 +6,9 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 
 export default function SelectedElement({data}) {
 
-    const constructElements = data.map((item) =>{
+    const constructElements = data.map((item, index) =>{
         return (
-            <div className={styles.itemSelect} key={item._id}>
+            <div className={styles.itemSelect} key={item._id + index}>
                 <DragIcon type="primary" />
                 <ConstructorElement text={item.name} price={item.price} thumbnail={item.image}/>
             </div>

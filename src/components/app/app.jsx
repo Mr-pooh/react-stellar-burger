@@ -4,6 +4,8 @@ import  AppHeader  from "../header/header";
 import BurgerIngridients from "../ingridients/ingridients";
 import BurgerConstructor from '../constuctorBurger/constructorBurger';
 import { getIngridient } from '../../utils/burger-api';
+import { BurgerIngridientsContext } from '../services/burgerIngridientsContext';
+import { BurgerConstructorContext } from '../services/burgerConstructorContext';
 
 function App() {
   
@@ -39,6 +41,11 @@ function App() {
 
   const {data, isLoading, hasError} = appState;
 
+  const [elemConstr, setElemConstr] = React.useState({
+    bun: null,
+    ingridients: []
+  });
+
   return (
     <div className={styles.app}>
       <pre className={styles.pre}>
@@ -49,11 +56,15 @@ function App() {
           !hasError &&
           data.length &&
           <>
-            <AppHeader />
-      	    <main className={styles.main} >
-              <BurgerIngridients data={data}   />
-              <BurgerConstructor data={data} />
-            </main>
+            <BurgerIngridientsContext.Provider value={data}>
+              <BurgerConstructorContext.Provider value={{elemConstr, setElemConstr}}>
+                <AppHeader />
+      	        <main className={styles.main} >
+                  <BurgerIngridients />
+                  <BurgerConstructor />
+                </main>
+              </BurgerConstructorContext.Provider>
+            </BurgerIngridientsContext.Provider>
           </>
         }
       </pre>
