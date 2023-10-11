@@ -7,6 +7,7 @@ import { getIngridient } from '../../utils/burger-api';
 import { BurgerIngridientsContext } from '../services/burgerIngridientsContext';
 import { BurgerConstructorContext } from '../services/burgerConstructorContext';
 
+
 function App() {
   
   const [appState, setAppState] = React.useState({
@@ -14,7 +15,7 @@ function App() {
     hasError: false,
     data: []
   })
-
+  
   React.useEffect(()=> {
 
     const apiInitial = () => {
@@ -45,6 +46,7 @@ function App() {
     bun: null,
     ingridients: []
   });
+
 
   return (
     <div className={styles.app}>

@@ -6,12 +6,15 @@ import Modal from '../../modal/modal';
 import IngridientDetails from '../../ingredientDetails/ingridientDetails';
 import { BurgerConstructorContext } from '../../services/burgerConstructorContext';
 
+
+
 export default function IngridientsType ({item}) {
 
     const [modalOpen, setModalOpen] = React.useState(false);
 
     const {elemConstr, setElemConstr} = React.useContext(BurgerConstructorContext);
 
+   
     const addItemConstruct = () => {
         if(item.type === 'bun'){
             setElemConstr({
