@@ -1,6 +1,3 @@
-
-
-
 export const startSumm = {price: 0};
 
 export const reducer = (state, {type, elem}) => {
@@ -14,7 +11,6 @@ export const reducer = (state, {type, elem}) => {
            return  elem.ingridients.reduce((a, b) => a + b.price, startSumm.price);
         }
     }
-    console.log(summIngridient())
     
     switch(type){
         case 'add':
