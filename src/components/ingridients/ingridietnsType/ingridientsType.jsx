@@ -4,13 +4,36 @@ import PropTypes from 'prop-types';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../../modal/modal';
 import IngridientDetails from '../../ingredientDetails/ingridientDetails';
+import { BurgerConstructorContext } from '../../services/burgerConstructorContext';
+
+
 
 export default function IngridientsType ({item}) {
 
-    const [modalOpen, setModalOpen] = React.useState(false)
+    const [modalOpen, setModalOpen] = React.useState(false);
+
+    const {elemConstr, setElemConstr} = React.useContext(BurgerConstructorContext);
+
+   
+    const addItemConstruct = () => {
+        if(item.type === 'bun'){
+            setElemConstr({
+                ...elemConstr,
+                bun: item
+            })
+        }
+        if(item.type !== 'bun'){
+            setElemConstr({
+                ...elemConstr,
+                ingridients: [...elemConstr.ingridients, item]
+            })
+        }
+
+    }
 
     const open = () => {
-       setModalOpen(true)
+        addItemConstruct();
+        setModalOpen(true);
     }
 
     const onClose = () => {
