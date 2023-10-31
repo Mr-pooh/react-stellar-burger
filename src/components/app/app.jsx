@@ -4,71 +4,66 @@ import  AppHeader  from "../header/header";
 import BurgerIngridients from "../ingridients/ingridients";
 import BurgerConstructor from '../constuctorBurger/constructorBurger';
 import { getIngridient } from '../../utils/burger-api';
-import { BurgerIngridientsContext } from '../services/burgerIngridientsContext';
-import { BurgerConstructorContext } from '../services/burgerConstructorContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { cart } from '../services/counterSlice'
 
 
 function App() {
+
+  // const { wasErr, isLoading, bun, ingridients } = useSelector((store) => ({
+  //   wasErr: store.hasError,
+  //   isLoading: store.loading,
+  //   bun: store.cart.bun,
+  //   ingridients: store.counter.cart.ingridients
   
-  const [appState, setAppState] = React.useState({
-    loading: false,
-    hasError: false,
-    data: []
-  })
+  // }))
   
+  const dispatch = useDispatch();
+  
+  //const { actions } = counterSlice();
+  
+  console.log(cart)
+  // console.log(loading)
+
   React.useEffect(()=> {
 
     const apiInitial = () => {
-      setAppState({ ...appState, loading: true, hasError: false });
+      //dispatch(loading)
       getIngridient()
         .then((res) => {
-          setAppState({
-            ...appState,
-            loading: false,
-            data: res.data
-          })})
+          dispatch(cart({
+            res
+          }))})
         .catch((err) => {
-            setAppState({
-              ...appState,
-              hasError: true,
-              loading: false
-            })
+          //dispatch(hasError)
             console.log(err)
           })
         }
       
     apiInitial()
-  }, [])
+  }, [dispatch])
 
-  const {data, isLoading, hasError} = appState;
-
-  const [elemConstr, setElemConstr] = React.useState({
-    bun: null,
-    ingridients: []
-  });
-
+  const { ingridients } = useSelector(state => ({
+    ingridients: state.counter.cart.ingridients
+  }))
+  console.log(ingridients)
 
   return (
     <div className={styles.app}>
       <pre className={styles.pre}>
 
-      {isLoading && 'Загрузка...'}
-        {hasError && 'Произошла ошибка'}
-        {!isLoading &&
-          !hasError &&
-          data.length &&
+         {ingridients.length &&
+
           <>
-            <BurgerIngridientsContext.Provider value={data}>
-              <BurgerConstructorContext.Provider value={{elemConstr, setElemConstr}}>
-                <AppHeader />
-      	        <main className={styles.main} >
-                  <BurgerIngridients />
-                  <BurgerConstructor />
-                </main>
-              </BurgerConstructorContext.Provider>
-            </BurgerIngridientsContext.Provider>
+            <AppHeader />
+      	    <main className={styles.main} >
+       
+                <BurgerIngridients />
+                <BurgerConstructor /> 
+     
+            </main> 
           </>
-        }
+           }
       </pre>
     </div>
   );

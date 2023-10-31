@@ -1,26 +1,31 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styles from "./ingridients.module.css";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientsType from './ingridietnsType/ingridientsType';
 import { ingredientPropType } from '../../utils/prop-types';
-import { BurgerIngridientsContext } from '../services/burgerIngridientsContext';
+import { useSelector } from 'react-redux';
 
 export default function BurgerIngridients() {
 
-    const data = useContext(BurgerIngridientsContext)
-
-    
+  const { bun, ingridients } = useSelector((store) => ({
+    bun: store.cart.bun,
+    ingridients: store.cart.ingridients
+  }))
 
     const [current, setCurrent] = React.useState('Булки');
 
-    const elementBun = type => data.map(item => {
+    const elementBun = () => bun.map(item => {
       return(     
-        (item.type === type) &&
         <IngridientsType item={item} key={item._id} />
       )
     })
     
+    const elementIngridient = () => ingridients.map(item => {
+      return(     
+        <IngridientsType item={item} key={item._id} />
+      )
+    })
 
     return (
             <section className={styles.ingridients}>
@@ -39,15 +44,15 @@ export default function BurgerIngridients() {
                 <div className={styles.tableIngridients + ' custom-scroll'}>
                   <h3 className='text text_type_main-medium pt-10'>Булки</h3>
                   <ul className={styles.table}>
-                    {elementBun('bun')}
+                    {elementBun()}
                   </ul>
                   <h3 className='text text_type_main-medium pt-10'>Соусы</h3>
                   <ul className={styles.table}>
-                    {elementBun('sauce')}
+                    {elementIngridient()}
                   </ul>
                   <h3 className='text text_type_main-medium pt-10'>Начинки</h3>
                   <ul className={styles.table}>
-                    {elementBun('main')}
+                    {elementIngridient()}
                   </ul>
                 </div>
             </section>
