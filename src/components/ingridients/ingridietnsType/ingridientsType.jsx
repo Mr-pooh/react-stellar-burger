@@ -4,18 +4,24 @@ import PropTypes from 'prop-types';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../../modal/modal';
 import IngridientDetails from '../../ingredientDetails/ingridientDetails';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeModal, openModal } from '../../services/modalIngredientSlice';
 
 
 
 export default function IngridientsType ({item}) {
 
-    const [modalOpen, setModalOpen] = React.useState(false);
-
-    //const dispatch = useDispatch();
+    // const [modalOpen, setModalOpen] = React.useState(false);
 
 
+    const dispatch = useDispatch();
 
+
+    const { modalOpen, elementDetails } = useSelector((store) => ({
+        modalOpen: store.modalIngredient.active,
+        elementDetails: store.modalIngredient.details
+    })
+    )
    
     // const addItemConstruct = () => {
     //     if(item.type === 'bun'){
@@ -32,14 +38,14 @@ export default function IngridientsType ({item}) {
     //     }
 
     // }
+    console.log()
 
     const open = () => {
-        // addItemConstruct();
-        setModalOpen(true);
+        dispatch(openModal(item));
     }
-
+    
     const onClose = () => {
-       setModalOpen(false)
+        dispatch(closeModal())
     }
 
     React.useEffect(() => {
@@ -60,7 +66,7 @@ export default function IngridientsType ({item}) {
                 <p className={styles.custom_text+' text text_type_main-default'}>{item.name}</p>
             </li>
             {modalOpen && 
-                <Modal onClose={onClose}><IngridientDetails element={item} /></Modal>
+                <Modal onClose={onClose}><IngridientDetails /></Modal>
             }
         </>
     )

@@ -5,54 +5,27 @@ import BurgerIngridients from "../ingridients/ingridients";
 import BurgerConstructor from '../constuctorBurger/constructorBurger';
 import { getIngridient } from '../../utils/burger-api';
 import { useDispatch, useSelector } from 'react-redux';
-import { cart } from '../services/counterSlice'
+import { initialIngridient } from '../services/initialSlice'
 
 
 function App() {
 
-  // const { wasErr, isLoading, bun, ingridients } = useSelector((store) => ({
-  //   wasErr: store.hasError,
-  //   isLoading: store.loading,
-  //   bun: store.cart.bun,
-  //   ingridients: store.counter.cart.ingridients
-  
-  // }))
-  
   const dispatch = useDispatch();
   
-  //const { actions } = counterSlice();
-  
-  console.log(cart)
-  // console.log(loading)
-
   React.useEffect(()=> {
-
-    const apiInitial = () => {
-      //dispatch(loading)
-      getIngridient()
-        .then((res) => {
-          dispatch(cart({
-            res
-          }))})
-        .catch((err) => {
-          //dispatch(hasError)
-            console.log(err)
-          })
-        }
-      
-    apiInitial()
+    dispatch(initialIngridient())
   }, [dispatch])
 
-  const { ingridients } = useSelector(state => ({
-    ingridients: state.counter.cart.ingridients
-  }))
-  console.log(ingridients)
+  // const { bun } = useSelector(state => ({
+  //   bun: state.initial.cart.bun
+  // }))
+  // console.log(bun)
 
   return (
     <div className={styles.app}>
       <pre className={styles.pre}>
 
-         {ingridients.length &&
+        
 
           <>
             <AppHeader />
@@ -63,7 +36,7 @@ function App() {
      
             </main> 
           </>
-           }
+           
       </pre>
     </div>
   );

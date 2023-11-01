@@ -1,9 +1,16 @@
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { ingredientPropType } from '../../utils/prop-types';
 import styles from './ingridientDetails.module.css';
 import PropTypes from 'prop-types';
+import { addIngridient, openModal } from '../services/modalIngredientSlice';
 
-export default function IngridientDetails({element}) {
+export default function IngridientDetails() {
 
+    const { element } = useSelector((store) => ({
+        element: store.modalIngredient.details
+    }))
+    
     return(
         <div className={styles.ingridentModalBlock}>
             <h1 className={styles.title + ` text text_type_main-large pt-10 pl-10 pr-10`}>Детали ингредиента</h1>
@@ -36,5 +43,5 @@ export default function IngridientDetails({element}) {
 };
 
 IngridientDetails.propTypes = {
-    element: ingredientPropType.isRequired
+    element: PropTypes.object.isRequired
 }
