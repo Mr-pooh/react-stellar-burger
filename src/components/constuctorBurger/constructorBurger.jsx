@@ -14,9 +14,14 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function BurgerConstructor() {
 
 
-    const { cart } = useSelector(store => ({
-        cart: store.initial.data
-      }))
+    // const { cart } = useSelector(store => ({
+    //     cart: store.initial.data
+    //   }));
+
+    const { bun, ingredients } = useSelector(store => ({
+        bun: store.constructor.bun,
+        ingredients: store.constructor.ingredients
+    }))
 
     const dispatch = useDispatch();
 
@@ -95,31 +100,39 @@ export default function BurgerConstructor() {
     return (
         <section className={styles.constructorBurger + ` text pt-25 ml-10`}>
             <div className={styles.constructorItems + ' pl-4'}>
-                <div className={styles.list + ` text ml-8`}>
-                    {cart &&
+                {bun ?
+                    <div className={styles.list + ` text ml-8`}>
                         <ConstructorElement
                             type="top"
                             isLocked={true}
-                            text={cart.name + ` (верх)`}
-                            price={cart.price}
-                            thumbnail={cart.image}
+                            text={bun.name + ` (верх)`}
+                            price={bun.price}
+                            thumbnail={bun.image}
                         />
-                    }
-                </div>
-                <div className={styles.ingridientsSelect + ` custom-scroll`}>
-                    <SelectedElement data={cart} />
-                </div>
-                <div className={styles.list + ` text ml-8`}>
-                    {cart &&
+                    </div>
+                    :
+                        <p className={`${styles.constructorElement} ${styles.constructorElementTop}`}>Выберите булки</p>
+                }
+                {ingredients ?
+                    <div className={styles.ingridientsSelect + ` custom-scroll`}>
+                        <SelectedElement data={ingredients} />
+                    </div>
+                :
+                    <p className={styles.constructorElement}>Выберите начинку</p>
+                }
+                {bun ?
+                    <div className={styles.list + ` text ml-8`}>
                         <ConstructorElement
                             type="bottom"
                             isLocked={true}
-                            text={cart.name + ` (низ)`}
-                            price={cart.price}
-                            thumbnail={cart.image}
+                            text={bun.name + ` (низ)`}
+                            price={bun.price}
+                            thumbnail={bun.image}
                         />
-                    }
-                </div>
+                    </div>
+                    :
+                        <p className={`${styles.constructorElement} ${styles.constructorElementBottom}`}>Выберите булки</p>
+                }
                 <div className={styles.summ + ` mt-10`}>
                     <p className='text text_type_digits-medium pr-10'>{stater.price}<CurrencyIcon type="primary" /></p>
                     <Button htmlType="button" type="primary" size="medium" onClick={()=> {

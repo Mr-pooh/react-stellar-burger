@@ -6,6 +6,8 @@ import BurgerConstructor from '../constuctorBurger/constructorBurger';
 import { getIngridient } from '../../utils/burger-api';
 import { useDispatch, useSelector } from 'react-redux';
 import { initialIngridient } from '../services/initialSlice'
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 
 function App() {
@@ -24,19 +26,13 @@ function App() {
   return (
     <div className={styles.app}>
       <pre className={styles.pre}>
-
-        
-
-          <>
-            <AppHeader />
-      	    <main className={styles.main} >
-       
-                <BurgerIngridients />
-                <BurgerConstructor /> 
-     
-            </main> 
-          </>
-           
+        <AppHeader />
+      	<main className={styles.main} >
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngridients />
+            <BurgerConstructor /> 
+          </DndProvider>
+        </main> 
       </pre>
     </div>
   );

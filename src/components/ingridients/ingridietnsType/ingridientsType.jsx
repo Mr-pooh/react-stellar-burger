@@ -65,7 +65,7 @@ export default function IngridientsType ({item}) {
                 </div>
                 <p className={styles.custom_text+' text text_type_main-default'}>{item.name}</p>
             </li>
-            {modalOpen && 
+            {modalOpen && elementDetails._id === item._id && 
                 <Modal onClose={onClose}><IngridientDetails /></Modal>
             }
         </>
