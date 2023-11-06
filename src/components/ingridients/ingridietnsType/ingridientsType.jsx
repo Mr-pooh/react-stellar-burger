@@ -6,39 +6,43 @@ import Modal from '../../modal/modal';
 import IngridientDetails from '../../ingredientDetails/ingridientDetails';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, openModal } from '../../services/modalIngredientSlice';
+import { useDrag } from 'react-dnd';
 
 
 
 export default function IngridientsType ({item}) {
 
-    // const [modalOpen, setModalOpen] = React.useState(false);
-
-
     const dispatch = useDispatch();
-
 
     const { modalOpen, elementDetails } = useSelector((store) => ({
         modalOpen: store.modalIngredient.active,
         elementDetails: store.modalIngredient.details
-    })
-    )
+    }))
    
-    // const addItemConstruct = () => {
-    //     if(item.type === 'bun'){
-    //         setElemConstr({
-    //             ...elemConstr,
-    //             bun: item
-    //         })
-    //     }
-    //     if(item.type !== 'bun'){
-    //         setElemConstr({
-    //             ...elemConstr,
-    //             ingridients: [...elemConstr.ingridients, item]
-    //         })
-    //     }
+    const {bun, ingredients} = useSelector((store)=> ({
+        bun: store.constructorBurger.bun,
+        ingredients: store.constructorBurger.ingredients
+    }))
+    
+    const counterRender = React.useMemo(()=> {
+        if(bun){
+            if(bun._id === item._id){
+                return <Counter count={2} size="default" extraClass="m-1" />
+            }
+            
+        }
+        if(ingredients.length){
+            const lengthIngr = ingredients.filter(elem => elem._id === item._id).length
+            if(lengthIngr){
+                return <Counter count={lengthIngr} size="default" extraClass="m-1" />
+            }
+        }
+    }, [bun, ingredients])
 
-    // }
-    console.log()
+    const[, dragRef] = useDrag({
+        type: 'ingredient',
+        item:  item
+      })
 
     const open = () => {
         dispatch(openModal(item));
@@ -56,8 +60,8 @@ export default function IngridientsType ({item}) {
 
     return (
         <>
-            <li className={styles.elem + ` mt-6`} onClick={open}>
-                <Counter count={1} size="default" extraClass="m-1" />
+            <li className={styles.elem + ` mt-6`} onClick={open} ref={dragRef}>
+                {counterRender}
                 <img src={item.image} alt={item.name} className='pl-4 pr-4'/>
                 <div className={styles.price}>
                     <h4 className='text text_type_digits-default p-1'>{item.price}</h4>

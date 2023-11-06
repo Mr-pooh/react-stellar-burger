@@ -7,7 +7,6 @@ export const reducer = (state, {type, elem}) => {
             return 0
         }
         else{
-
            return  elem.ingridients.reduce((a, b) => a + b.price, startSumm.price);
         }
     }
