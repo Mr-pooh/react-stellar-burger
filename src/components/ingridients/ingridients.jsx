@@ -4,16 +4,12 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientsType from './ingridietnsType/ingridientsType';
 import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
-import { useDrag } from 'react-dnd';
 
 export default function BurgerIngridients() {
 
   const { cart } = useSelector((store) => ({
     cart: store.initial.data
   }))
-
- 
-
  
   const [current, setCurrent] = React.useState('Булки');
 

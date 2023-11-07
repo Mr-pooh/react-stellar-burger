@@ -1,9 +1,13 @@
-import React from 'react';
 import styles from './orderDetails.module.css';
-import PropTypes  from 'prop-types';
 import image from '../../images/logoReady.svg'
+import { useSelector } from 'react-redux';
 
-export default function OrderDetails({data}) {
+export default function OrderDetails() {
+
+    const { data } = useSelector(store => ({
+        data: store.orderDetails.data
+    }))
+
         return(
             <div className={styles.main + ` pt-30 pb-30`}>
                 <h2 className='text text_type_digits-large pb-8'>{data.order.number}</h2>
@@ -15,6 +19,3 @@ export default function OrderDetails({data}) {
         )
 }
 
-OrderDetails.propTypes = {
-    data: PropTypes.object.isRequired
-}

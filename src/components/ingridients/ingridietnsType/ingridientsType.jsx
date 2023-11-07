@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from '../ingridients.module.css';
-import PropTypes from 'prop-types';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../../modal/modal';
 import IngridientDetails from '../../ingredientDetails/ingridientDetails';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, openModal } from '../../services/modalIngredientSlice';
 import { useDrag } from 'react-dnd';
+import { ingredientPropType } from '../../../utils/prop-types';
 
 
 
@@ -77,5 +77,5 @@ export default function IngridientsType ({item}) {
 }
 
 IngridientsType.propTypes = {
-    item: PropTypes.object.isRequired
+    item: ingredientPropType.isRequired
 }

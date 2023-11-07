@@ -1,10 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
 
-
-
-
-
 const constructorBurgerSlice = createSlice({
     name: 'constructorBurger',
     initialState: {

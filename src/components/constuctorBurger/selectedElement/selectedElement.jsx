@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import PropTypes from 'prop-types';
-import {ingredientPropType} from '../../../utils/prop-types.js';
 import styles from '../constructorBurger.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
@@ -65,6 +64,12 @@ export default function SelectedElement({id, index, moveCard, name, price, image
     )
 }
 
-// SelectedElement.propTypes = {
-//     item: ingredientPropType.isRequired
-// }
+SelectedElement.propTypes = {
+  id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired, 
+  moveCard: PropTypes.func.isRequired, 
+  name: PropTypes.string.isRequired, 
+  price: PropTypes.number.isRequired, 
+  image: PropTypes.string.isRequired,
+  handleClose:PropTypes.func.isRequired
+}

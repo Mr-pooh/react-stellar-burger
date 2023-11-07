@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react';
-import { orderApi } from '../../utils/order-api.js'
+import React, { useCallback, useState } from 'react';
 import styles from './constructorBurger.module.css';
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import SelectedElement from './selectedElement/selectedElement';
@@ -8,11 +7,26 @@ import OrderDetails from '../orderDetails/orderDetails.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { addIngredient, addBun, ingredientSwitch, deleteIngredient } from '../services/constructorBurgerSlice.jsx';
+import { orderDetailsApi } from '../services/orderDetailsSlice.jsx';
 
 
 
 
 export default function BurgerConstructor() {
+    
+    const { bun, ingredients } = useSelector(store => ({
+        bun: store.constructorBurger.bun,
+        ingredients: store.constructorBurger.ingredients
+    }))
+
+    const { loading, hasError, data } = useSelector(store => ({
+        loading: store.orderDetails.loading,
+        hasError: store.orderDetails.hasError,
+        data: store.orderDetails.data
+    }))
+
+    const [modal, setModal] = useState(false)
+
 
     const dispatch = useDispatch();
 
@@ -29,11 +43,6 @@ export default function BurgerConstructor() {
     const addBuns = (item) => {
         dispatch(addBun(item))
     }
-    
-    const { bun, ingredients } = useSelector(store => ({
-        bun: store.constructorBurger.bun,
-        ingredients: store.constructorBurger.ingredients
-    }))
     
 
     const summIngridient = () => {
@@ -56,13 +65,10 @@ export default function BurgerConstructor() {
             return 0
         }
     }, [bun, ingredients])
-    
-
 
     const handleClose = (item) => {
         dispatch(deleteIngredient(item))
     }
-
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
         dispatch(ingredientSwitch({toIndex: dragIndex, fromIndex: hoverIndex}))
@@ -83,9 +89,36 @@ export default function BurgerConstructor() {
         )
       }, [])
 
+     const pushElement = React.useCallback(() => {
+         if(bun !== 0 ){
+             return  [bun._id].concat(ingredients.map(item => item._id))  
+         }
+         else {
+             return Error
+         }
+     }, [bun, ingredients])
 
-  
+    const open = () => {
+        setModal(true)
+        
+    }
+
+     const onClose = () => {
+        setModal(false)
+     };
+
+     React.useEffect(()=>{
+        return () => {
+            document.removeEventListener('click', onClose)
+        }
+     })
     
+    React.useEffect(()=> {
+        if(modal){
+            dispatch(orderDetailsApi(pushElement()))
+        }
+    }, [!modal, dispatch])
+
     return (
         <section className={styles.constructorBurger + ` text pt-25 ml-10`} ref={dropTarget}>
             <div className={styles.constructorItems + ' pl-4'}>
@@ -125,92 +158,21 @@ export default function BurgerConstructor() {
                 <div className={styles.summ + ` mt-10`}>
                     <p className='text text_type_digits-medium pr-10'>{totalPrice}<CurrencyIcon type="primary" /></p>
                     <Button htmlType="button" type="primary" size="medium" onClick={()=> {
-                        // if(bun){
-                        //     open();
-                        // }                
+                         if(bun){
+                            open();
+                         }                
                         }}>
                         Оформить заказ
                     </Button>
                 </div>
             </div>
-            {/* {isLoading && 'Загрузка...'}
+            {loading && 'Загрузка...'}
             {hasError && 'Произошла ошибка'}
-            {active && !isLoading && !hasError && newElem &&
+            {!loading && !hasError && modal && data &&
                 <Modal onClose={onClose}>
-                    <OrderDetails data={newElem} />
+                    <OrderDetails />
                 </Modal>
-            } */}
+            } 
         </section>
     )
 }
-
-
-
-// const [ orderPush, setOrderPush ] = React.useState({
-    //     loading: false,
-    //     hasError: false,
-    //     active: false,
-    //     newElem: {}
-    // })
-
-    
-    //   const open = () => {
-    //       setOrderPush({active: true}); 
-    //   }
-    
-    
-    // const onClose = () => {
-    //     setOrderPush({active: false})
-    // }
-    
-    // React.useEffect(() => {
-    //     return () => {
-    //         document.removeEventListener('click',onClose)
-    //     }
-    // })
-
-    // const addSumm = React.useMemo(()=> {
-    //     dispatch({
-    //         type: 'add',
-    //         elem:     //     })
-    // }, [)
-
-    // const pushElement = () => {
-    //     if(bun !== 0 ){
-    //         return  [bun._id].concat(ingridients.map(item => item._id))  
-    //     }
-    //     else {
-    //         return Error
-    //     }
-    // }
-
-    // React.useEffect(()=> {
-    //     const orderInitial = () => {
-    //         setOrderPush({ ...orderPush, loading: true, hasError: false })
-    //         orderApi(pushElement())
-    //         .then((res)=> {
-    //             setOrderPush({
-    //                 ...orderPush,
-    //                 loading: false,
-    //                 newElem: res
-    //             })
-    //         })
-    //         .catch((err) => {
-    //             setOrderPush({
-    //               ...orderPush,
-    //               hasError: true,
-    //               loading: false
-    //             })
-    //             console.log(err)
-    //           })
-    //     }
-       
-    //     if(orderPush.active){
-    //         orderInitial()
-    //     }
-        
-       
-    // }, [!orderPush.active])
-
-    // const { newElem, isLoading, hasError, active } = orderPush
- 

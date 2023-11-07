@@ -8,8 +8,6 @@ export const initialIngridient = createAsyncThunk(
     }
 )
 
-
-
 const initialSlice = createSlice({
     name: 'initial',
     initialState: {
@@ -36,31 +34,5 @@ const initialSlice = createSlice({
         
         }
     });
-                    //reducer: {
-    //    cart: (state, action) => {
-    //        state.cart.bun = action.payload.map(item => {
-    //            if(item.type === 'bun'){
-    //                return item
-    //            }
-    //        });
-    //        state.cart.ingridients = action.payload.map(item => {
-    //            if(item.type !== 'bun'){
-    //                return item
-    //            }
-    //        })
-    //    },
-    //    loading: (state) => { 
-    //        state.hasError = false;
-    //        state.loading = true
-    //    },
-    //    hasError: (state) => {
-    //        state.hasError = true;
-    //        state.loading = false
-    //    }
-    //    
-    //},
-
-
-//export const { cart, loading, hasError } = counterSlice.actions;
 
 export default initialSlice.reducer;

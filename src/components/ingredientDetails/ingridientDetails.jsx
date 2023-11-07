@@ -1,9 +1,5 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { ingredientPropType } from '../../utils/prop-types';
+import { useSelector } from 'react-redux';
 import styles from './ingridientDetails.module.css';
-import PropTypes from 'prop-types';
-import { addIngridient, openModal } from '../services/modalIngredientSlice';
 
 export default function IngridientDetails() {
 
