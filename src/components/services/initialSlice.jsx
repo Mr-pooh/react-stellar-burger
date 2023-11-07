@@ -35,4 +35,10 @@ const initialSlice = createSlice({
         }
     });
 
+export const getStoreInitial = (store) => ({
+    loading: store.initial.loading,
+    hasError: store.initial.hasError,
+    data: store.initial.data
+})
+
 export default initialSlice.reducer;

@@ -6,24 +6,17 @@ import Modal from '../modal/modal.jsx';
 import OrderDetails from '../orderDetails/orderDetails.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { addIngredient, addBun, ingredientSwitch, deleteIngredient } from '../services/constructorBurgerSlice.jsx';
-import { orderDetailsApi } from '../services/orderDetailsSlice.jsx';
+import { addIngredient, addBun, ingredientSwitch, deleteIngredient, getStoreConstructor } from '../services/constructorBurgerSlice.jsx';
+import { getStoreOrderDetails, orderDetailsApi } from '../services/orderDetailsSlice.jsx';
 
 
 
 
 export default function BurgerConstructor() {
     
-    const { bun, ingredients } = useSelector(store => ({
-        bun: store.constructorBurger.bun,
-        ingredients: store.constructorBurger.ingredients
-    }))
+    const { bun, ingredients } = useSelector(getStoreConstructor)
 
-    const { loading, hasError, data } = useSelector(store => ({
-        loading: store.orderDetails.loading,
-        hasError: store.orderDetails.hasError,
-        data: store.orderDetails.data
-    }))
+    const { loading, hasError, data } = useSelector(getStoreOrderDetails)
 
     const [modal, setModal] = useState(false)
 

@@ -34,4 +34,10 @@ const orderDetailsSlice = createSlice({
         }
     });
 
+export const getStoreOrderDetails = (store) => ({
+    loading: store.orderDetails.loading,
+    hasError: store.orderDetails.hasError,
+    data: store.orderDetails.data
+})
+
     export default orderDetailsSlice.reducer

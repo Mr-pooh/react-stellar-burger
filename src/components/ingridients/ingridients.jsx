@@ -4,12 +4,11 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientsType from './ingridietnsType/ingridientsType';
 import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
+import { getStoreInitial } from '../services/initialSlice';
 
 export default function BurgerIngridients() {
 
-  const { cart } = useSelector((store) => ({
-    cart: store.initial.data
-  }))
+  const { data } = useSelector(getStoreInitial)
  
   const [current, setCurrent] = React.useState('Булки');
 
@@ -35,7 +34,7 @@ export default function BurgerIngridients() {
   }
     
 
-    const elementIngridient = (type) => cart.map(item => {
+    const elementIngridient = (type) => data.map(item => {
       if(item.type === type)
         return(
           <IngridientsType item={item} key={item._id} />

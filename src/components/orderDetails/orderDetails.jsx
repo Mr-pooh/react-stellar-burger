@@ -1,12 +1,11 @@
 import styles from './orderDetails.module.css';
 import image from '../../images/logoReady.svg'
 import { useSelector } from 'react-redux';
+import { getStoreOrderDetails } from '../services/orderDetailsSlice';
 
 export default function OrderDetails() {
 
-    const { data } = useSelector(store => ({
-        data: store.orderDetails.data
-    }))
+    const { data } = useSelector(getStoreOrderDetails)
 
         return(
             <div className={styles.main + ` pt-30 pb-30`}>

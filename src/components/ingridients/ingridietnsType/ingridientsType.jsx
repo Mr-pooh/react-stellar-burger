@@ -4,9 +4,10 @@ import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-com
 import Modal from '../../modal/modal';
 import IngridientDetails from '../../ingredientDetails/ingridientDetails';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeModal, openModal } from '../../services/modalIngredientSlice';
+import { closeModal, getStoreModalIngredient, openModal } from '../../services/modalIngredientSlice';
 import { useDrag } from 'react-dnd';
 import { ingredientPropType } from '../../../utils/prop-types';
+import { getStoreConstructor } from '../../services/constructorBurgerSlice';
 
 
 
@@ -14,15 +15,9 @@ export default function IngridientsType ({item}) {
 
     const dispatch = useDispatch();
 
-    const { modalOpen, elementDetails } = useSelector((store) => ({
-        modalOpen: store.modalIngredient.active,
-        elementDetails: store.modalIngredient.details
-    }))
+    const { active, details } = useSelector(getStoreModalIngredient)
    
-    const {bun, ingredients} = useSelector((store)=> ({
-        bun: store.constructorBurger.bun,
-        ingredients: store.constructorBurger.ingredients
-    }))
+    const {bun, ingredients} = useSelector(getStoreConstructor)
     
     const counterRender = React.useMemo(()=> {
         if(bun){
@@ -69,7 +64,7 @@ export default function IngridientsType ({item}) {
                 </div>
                 <p className={styles.custom_text+' text text_type_main-default'}>{item.name}</p>
             </li>
-            {modalOpen && elementDetails._id === item._id && 
+            {active && details._id === item._id && 
                 <Modal onClose={onClose}><IngridientDetails /></Modal>
             }
         </>

@@ -18,6 +18,11 @@ const modalIngredientSlice = createSlice({
     }
 })
 
+export const getStoreModalIngredient = (store) => ({
+    active: store.modalIngredient.active,
+    details: store.modalIngredient.details
+})
+
 export const { openModal, closeModal } = modalIngredientSlice.actions
 
 export default modalIngredientSlice.reducer
