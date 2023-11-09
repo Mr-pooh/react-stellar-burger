@@ -6,6 +6,37 @@
     max-height: 912px;
 }
 
+.constructorElement {
+    padding: 16px 24px;
+    display: flex;
+    border-radius: var(--common-border-radius-s);
+    background: var(--background-element);
+    max-width: 536px;
+    min-width: 536px;
+    width: 100%;
+    min-height: 500px;
+    font-family: 'Jet Brains Mono';
+    font-size: 16px;
+    line-height: 24px;
+    color: #F2F2F3;
+    flex-grow: 1;
+    box-sizing: border-box;
+    text-align: center;
+    margin-block: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.constructorElementTop {
+    border-radius: var(--top-constructor-item-border-radius);
+    min-height: 80px;
+}
+
+.constructorElementBottom {
+    border-radius: var(--bottom-constructor-item-border-radius);
+    min-height: 80px;
+}
 
 
 .itemSelect {

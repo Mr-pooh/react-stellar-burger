@@ -1,43 +1,50 @@
 import React from 'react';
 import styles from '../ingridients.module.css';
-import PropTypes from 'prop-types';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../../modal/modal';
 import IngridientDetails from '../../ingredientDetails/ingridientDetails';
-import { BurgerConstructorContext } from '../../services/burgerConstructorContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeModal, getStoreModalIngredient, openModal } from '../../services/modalIngredientSlice';
+import { useDrag } from 'react-dnd';
+import { ingredientPropType } from '../../../utils/prop-types';
+import { getStoreConstructor } from '../../services/constructorBurgerSlice';
 
 
 
 export default function IngridientsType ({item}) {
 
-    const [modalOpen, setModalOpen] = React.useState(false);
+    const dispatch = useDispatch();
 
-    const {elemConstr, setElemConstr} = React.useContext(BurgerConstructorContext);
-
+    const { active, details } = useSelector(getStoreModalIngredient)
    
-    const addItemConstruct = () => {
-        if(item.type === 'bun'){
-            setElemConstr({
-                ...elemConstr,
-                bun: item
-            })
+    const {bun, ingredients} = useSelector(getStoreConstructor)
+    
+    const counterRender = React.useMemo(()=> {
+        if(bun){
+            if(bun._id === item._id){
+                return <Counter count={2} size="default" extraClass="m-1" />
+            }
+            
         }
-        if(item.type !== 'bun'){
-            setElemConstr({
-                ...elemConstr,
-                ingridients: [...elemConstr.ingridients, item]
-            })
+        if(ingredients.length){
+            const lengthIngr = ingredients.filter(elem => elem._id === item._id).length
+            if(lengthIngr){
+                return <Counter count={lengthIngr} size="default" extraClass="m-1" />
+            }
         }
+    }, [bun, ingredients])
 
-    }
+    const[, dragRef] = useDrag({
+        type: 'ingredient',
+        item:  item
+      })
 
     const open = () => {
-        addItemConstruct();
-        setModalOpen(true);
+        dispatch(openModal(item));
     }
-
+    
     const onClose = () => {
-       setModalOpen(false)
+        dispatch(closeModal())
     }
 
     React.useEffect(() => {
@@ -48,8 +55,8 @@ export default function IngridientsType ({item}) {
 
     return (
         <>
-            <li className={styles.elem + ` mt-6`} onClick={open}>
-                <Counter count={1} size="default" extraClass="m-1" />
+            <li className={styles.elem + ` mt-6`} onClick={open} ref={dragRef}>
+                {counterRender}
                 <img src={item.image} alt={item.name} className='pl-4 pr-4'/>
                 <div className={styles.price}>
                     <h4 className='text text_type_digits-default p-1'>{item.price}</h4>
@@ -57,13 +64,13 @@ export default function IngridientsType ({item}) {
                 </div>
                 <p className={styles.custom_text+' text text_type_main-default'}>{item.name}</p>
             </li>
-            {modalOpen && 
-                <Modal onClose={onClose}><IngridientDetails element={item} /></Modal>
+            {active && details._id === item._id && 
+                <Modal onClose={onClose}><IngridientDetails /></Modal>
             }
         </>
     )
 }
 
 IngridientsType.propTypes = {
-    item: PropTypes.object.isRequired
+    item: ingredientPropType.isRequired
 }
