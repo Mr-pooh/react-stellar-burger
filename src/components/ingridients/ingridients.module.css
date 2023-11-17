@@ -44,3 +44,8 @@
     max-width: inherit;
     max-height: inherit;
 }
+
+.link {
+    color: inherit;
+    text-decoration: none;
+}

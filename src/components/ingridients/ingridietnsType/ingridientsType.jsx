@@ -8,7 +8,7 @@ import { closeModal, getStoreModalIngredient, openModal } from '../../services/m
 import { useDrag } from 'react-dnd';
 import { ingredientPropType } from '../../../utils/prop-types';
 import { getStoreConstructor } from '../../services/constructorBurgerSlice';
-
+import { useLocation, Link } from 'react-router-dom'
 
 
 export default function IngridientsType ({item}) {
@@ -17,7 +17,9 @@ export default function IngridientsType ({item}) {
 
     const { active, details } = useSelector(getStoreModalIngredient)
    
-    const {bun, ingredients} = useSelector(getStoreConstructor)
+    const {bun, ingredients} = useSelector(getStoreConstructor);
+
+    const location = useLocation()
     
     const counterRender = React.useMemo(()=> {
         if(bun){
@@ -53,20 +55,23 @@ export default function IngridientsType ({item}) {
         }
     })
 
+    
+    const ingredientId = item._id;
+
     return (
         <>
-            <li className={styles.elem + ` mt-6`} onClick={open} ref={dragRef}>
-                {counterRender}
-                <img src={item.image} alt={item.name} className='pl-4 pr-4'/>
-                <div className={styles.price}>
-                    <h4 className='text text_type_digits-default p-1'>{item.price}</h4>
-                    <CurrencyIcon type="primary" />
-                </div>
-                <p className={styles.custom_text+' text text_type_main-default'}>{item.name}</p>
-            </li>
-            {active && details._id === item._id && 
-                <Modal onClose={onClose}><IngridientDetails /></Modal>
-            }
+            <Link key={ingredientId} to={`/ingredients/${ingredientId}`} state={{background: location}} className={styles.link}>
+                <li className={styles.elem + ` mt-6`} onClick={open} ref={dragRef}>
+                    {counterRender}
+                    <img src={item.image} alt={item.name} className='pl-4 pr-4'/>
+                    <div className={styles.price}>
+                        <h4 className='text text_type_digits-default p-1'>{item.price}</h4>
+                        <CurrencyIcon type="primary" />
+                    </div>
+                    <p className={styles.custom_text+' text text_type_main-default'}>{item.name}</p>
+                </li>
+            </Link>
+            
         </>
     )
 }
