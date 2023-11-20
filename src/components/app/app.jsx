@@ -41,13 +41,13 @@ function App() {
             <Route path='/forgot-password' element={null} />
             <Route path='/reset-password' element={null} />
             <Route path='/profile' element={null} />
-            <Route path='/ingredients/:ingredientId' element={<IngridientDetails />} />
+            <Route path='/ingredients/:id' element={<IngridientDetails />} />
             <Route path='*' element={null} />
           </Routes>
           {background && (
             <Routes>
 	            <Route
-	              path='/ingredients/:ingredientId'
+	              path='/ingredients/:id'
 	              element={
 	                <Modal onClose={handleModalClose}>
 	                  <IngridientDetails />

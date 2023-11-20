@@ -5,10 +5,13 @@
     align-content: center;
     align-items: center;
     width: 100%;
+    max-width: 575px;
+    max-height: 640px;
 }
 
 .title {
    display: inherit;
+   justify-content: center;
    width: -webkit-fill-available;
 
 }

@@ -1,11 +1,32 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './ingridientDetails.module.css';
-import { getStoreModalIngredient } from '../services/modalIngredientSlice';
-import { useLocation, Link } from 'react-router-dom'
+import { getStoreModalIngredient, openModal } from '../services/modalIngredientSlice';
+import { useLocation, Link, useParams } from 'react-router-dom'
+import React from 'react';
+import { getStoreInitial } from '../services/initialSlice';
 
 export default function IngridientDetails() {
 
-    const { details } = useSelector(getStoreModalIngredient);
+    const { id } = useParams();
+
+    const { data } = useSelector(getStoreInitial)
+
+    const dispatch= useDispatch()
+
+    const ingridient = React.useCallback(()=> {
+        if(data.length){
+            return data.find(item=> item._id === id)
+        }
+        
+    }, [id, data])
+
+    const { details, active } = useSelector(getStoreModalIngredient);
+    
+    React.useEffect(()=>{
+        if(data.length && !active){
+            dispatch(openModal(ingridient()))
+        }
+    }, [dispatch, ingridient])
 
     return(
         <div className={styles.ingridentModalBlock}>
