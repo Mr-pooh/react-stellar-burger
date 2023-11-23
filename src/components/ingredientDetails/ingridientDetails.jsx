@@ -26,10 +26,15 @@ export default function IngridientDetails() {
         if(data.length && !active){
             dispatch(openModal(ingridient()))
         }
-    }, [dispatch, ingridient])
+    }, [dispatch, ingridient]);
 
+    const location = useLocation();
+
+    const background = location.state && location.state.background;
+
+    console.log(background)
     return(
-        <div className={styles.ingridentModalBlock}>
+        <div className={background ? styles.ingridentModalBlock : styles.ingridentModalBlock + ' ' + styles.nullModal}>
             <h1 className={styles.title + ` text text_type_main-large pt-10 pl-10 pr-10`}>Детали ингредиента</h1>
             <div className={styles.main + ` pb-15`}>  
                 <img className={styles.image} src={details.image} alt={details.name} />

@@ -9,6 +9,10 @@
     max-height: 640px;
 }
 
+.nullModal {
+    margin-top: 200px;
+}
+
 .title {
    display: inherit;
    justify-content: center;

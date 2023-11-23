@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    column-gap: 60px;
+}
+
+.menu{
+    display: flex;
+    flex-direction: column;
+    margin-top: 120px;
+    padding-inline-start: 0;
+    margin-left: -200px;
+    
+
+}
+
+
+.text {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    height: 64px;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.textDark{
+    display: block;
+    width: 320px;
+    flex-shrink: 0;
+    margin-top: 80px;
+    opacity: 0.4;
+    text-wrap: wrap;
+    line-height: 24px;
+}
+
+.link {
+    color: var(--text-dark-grey-secondary-text, #8585AD);
+    text-decoration: none;
+    
+}

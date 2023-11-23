@@ -1,12 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getIngridient } from '../../utils/burger-api';
+import { initialIngridient } from './actions';
 
-export const initialIngridient = createAsyncThunk(
-    'initial/cart',
-    async ()=>{
-        return await getIngridient()
-    }
-)
 
 const initialSlice = createSlice({
     name: 'initial',
