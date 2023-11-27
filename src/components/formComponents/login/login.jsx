@@ -2,20 +2,27 @@ import React from 'react';
 import styles from '../form.module.css'
 import { Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../../services/actions';
 
 
 function Login(){
 
-    const [valuePassword, setValuePassword] = React.useState('password')
+  const dispatch = useDispatch();
+
+    const [password, setPassword] = React.useState('')
     const onChangePassword = e => {
-        setValuePassword(e.target.value)
+        setPassword(e.target.value)
     }
 
-    const [value, setValue] = React.useState('bob@example.com')
+    const [email, setEmail] = React.useState('')
     const onChange = e => {
-      setValue(e.target.value)
+      setEmail(e.target.value)
     }
 
+    const onClick = () => {
+      dispatch(login({email, password}))
+    }
 
     return (
         
@@ -23,20 +30,20 @@ function Login(){
                 <h1 className={styles.title + ` text text_type_main-large`}>Вход</h1>
                 <EmailInput
                   onChange={onChange}
-                  value={value}
+                  value={email}
                   name={'email'}
                   isIcon={false}
                 />
                 <PasswordInput
                   onChange={onChangePassword}
-                  value={valuePassword}
+                  value={password}
                   name={'password'}
                   extraClass="mb-2"
                 />
-                <Button htmlType="button" type="primary" size="medium" onClick={null}>Войти</Button>
+                <Button htmlType="button" type="primary" size="medium" onClick={onClick}>Войти</Button>
                 <div className={styles.text}>
-                    <p className={`text text_type_main-default text_color_inactive`}>Вы — новый пользователь?<Link to={'/'} className={styles.link} >Зарегистрироваться</Link></p>
-                    <p className={`text text_type_main-default text_color_inactive`}>Забыли пароль?<Link to={'/'} className={styles.link} >Восстановить пароль</Link></p>
+                    <p className={`text text_type_main-default text_color_inactive`}>Вы — новый пользователь?<Link to={'/register'} className={styles.link} >Зарегистрироваться</Link></p>
+                    <p className={`text text_type_main-default text_color_inactive`}>Забыли пароль?<Link to={'/forgot-password'} className={styles.link} >Восстановить пароль</Link></p>
                 </div>
             </form>
 

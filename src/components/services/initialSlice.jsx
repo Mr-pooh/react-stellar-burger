@@ -12,7 +12,7 @@ const initialSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(initialIngridient.pending, (state, action)=>{
+            .addCase(initialIngridient.pending, (state)=>{
                 state.loading = true;
                 state.hasError = null;
             })

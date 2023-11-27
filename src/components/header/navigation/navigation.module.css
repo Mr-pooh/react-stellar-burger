@@ -13,3 +13,9 @@ justify-content: space-between;
     text-decoration: none;
     color: inherit;
 }
+
+.headerLink {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }

@@ -3,7 +3,7 @@
 function NonFound404() {
     return (
         <div>
-
+            
         </div>
     )
 }

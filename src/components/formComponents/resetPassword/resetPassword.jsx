@@ -32,7 +32,7 @@ function ResetPassword(){
                 <Input name={'name'} value={valueName} onChange={onChangeName}  placeholder={'Введите код из письма'} />
                 <Button htmlType="button" type="primary" size="medium" onClick={null}>Сохранить</Button>
                 <div className={styles.text}>
-                    <p className={`text text_type_main-default text_color_inactive`}>Вспомнили пароль?<Link to={'/'} className={styles.link} >Войти</Link></p>
+                    <p className={`text text_type_main-default text_color_inactive`}>Вспомнили пароль?<Link to={'/login'} className={styles.link} >Войти</Link></p>
                 </div>
             </form>
 

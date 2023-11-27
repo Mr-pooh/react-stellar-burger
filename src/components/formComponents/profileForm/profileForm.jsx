@@ -2,21 +2,26 @@ import React, { useState } from 'react';
 import styles from '../form.module.css'
 import { Button, PasswordInput, EmailInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 function ProfileForm(){
+
+    const user = useSelector(store => store.user.user)
+
+    console.log(user)
 
     const [valuePassword, setValuePassword] = React.useState('')
     const onChangePassword = e => {
         setValuePassword(e.target.value)
     }
 
-    const [value, setValue] = React.useState('')
+    const [value, setValue] = React.useState(user.email)
     const onChange = e => {
       setValue(e.target.value)
     }
 
-    const [valueName, setValueName] = React.useState('')
+    const [valueName, setValueName] = React.useState(user.name)
     const onChangeName = e => {
         setValueName(e.target.value)
         
@@ -77,11 +82,6 @@ function ProfileForm(){
                   name={'password'}
                   icon="EditIcon"
                 />
-                <Button htmlType="button" type="primary" size="medium" onClick={null}>Войти</Button>
-                <div className={styles.text}>
-                    <p className={`text text_type_main-default text_color_inactive`}>Вы — новый пользователь?<Link to={'/'} className={styles.link} >Зарегистрироваться</Link></p>
-                    <p className={`text text_type_main-default text_color_inactive`}>Забыли пароль?<Link to={'/'} className={styles.link} >Восстановить пароль</Link></p>
-                </div>
             </form>
 
     )

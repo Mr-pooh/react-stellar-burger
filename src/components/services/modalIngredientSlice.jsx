@@ -11,7 +11,7 @@ const modalIngredientSlice = createSlice({
             state.active = true;
             state.details = action.payload
         },
-        closeModal: (state, action) => {
+        closeModal: (state) => {
             state.active = false
             state.details = {}
         }

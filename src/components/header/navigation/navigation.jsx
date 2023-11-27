@@ -3,18 +3,18 @@ import styles from './navigation.module.css'
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import HeaderLink from './headerLink/headerLink.jsx'
-import { Link } from "react-router-dom";
+import { NavLink } from 'react-router-dom'
 
 export default function Navigation() {
     return (
         <nav className={styles.navigation + ' p-4'}>
-            <div className="headerLink">
-                <Link to='/' className={styles.link}><HeaderLink text='Конструктор' active={true} icon={<BurgerIcon type="primary" />} /></Link>
-                <Link  className={styles.link}><HeaderLink text='Лента заказов' icon={<ListIcon type="secondary" />} /></Link>
+            <div className={styles.headerLink}>
+                <NavLink to="/" className={styles.link}><HeaderLink text='Конструктор' icon={<BurgerIcon type="primary" />} nav={'/'} /></NavLink>
+                <NavLink to="" className={styles.link}><HeaderLink text='Лента заказов' icon={<ListIcon type="secondary" />} nav={null} /></NavLink>
             </div>
             <Logo  />
 
-            <Link to='/profile' className={styles.link}><HeaderLink text='Личный кабинет' icon={<ProfileIcon type="secondary" />} /></Link>
+            <NavLink to="/profile" className={styles.link}><HeaderLink text='Личный кабинет' icon={<ProfileIcon type="secondary" />} nav={'/profile'} /></NavLink>
         </nav>
 
     )

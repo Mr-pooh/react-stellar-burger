@@ -1,46 +1,59 @@
 import React from 'react';
 import styles from '../form.module.css'
 import { Button, PasswordInput, EmailInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { register } from '../../services/actions';
 
 
 function Register(){
 
-    const [valuePassword, setValuePassword] = React.useState('password')
+  const dispatch = useDispatch()
+
+    const [password, setPassword] = React.useState('')
     const onChangePassword = e => {
-        setValuePassword(e.target.value)
+        setPassword(e.target.value)
     }
 
-    const [value, setValue] = React.useState('bob@example.com')
+    const [email, setEmail] = React.useState('')
     const onChange = e => {
-      setValue(e.target.value)
+      setEmail(e.target.value)
     }
 
-    const [valueName, setValueName] = React.useState('')
+    const [name, setName] = React.useState('')
     const onChangeName = e => {
-        setValueName(e.target.value)
+        setName(e.target.value)
     }
 
+
+    const onClick = () => {
+      if(name !== '' && email !== '' && password !== ''){
+        dispatch(register({name, email, password}))
+      }
+
+    }
+
+  
 
     return (
             <form className={styles.form}>
                 <h1 className={styles.title + ` text text_type_main-large`}>Регистрация</h1>
-                <Input name={'name'} value={valueName} onChange={onChangeName}  placeholder={'Имя'} />
+                <Input name={'name'} value={name} onChange={onChangeName}  placeholder={'Имя'} />
                 <EmailInput
                   onChange={onChange}
-                  value={value}
+                  value={email}
                   name={'email'}
                   isIcon={false}
                 />
                 <PasswordInput
                   onChange={onChangePassword}
-                  value={valuePassword}
+                  value={password}
                   name={'password'}
                   extraClass="mb-2"
                 />
-                <Button htmlType="button" type="primary" size="medium" onClick={null}>Зарегестрироваться</Button>
+                <Button htmlType="button" type="primary" size="medium" onClick={onClick}>Зарегестрироваться</Button>
                 <div className={styles.text}>
-                    <p className={`text text_type_main-default text_color_inactive`}>Уже зарегистрированы?<Link to={'/'} className={styles.link} >Войти</Link></p>
+                    <p className={`text text_type_main-default text_color_inactive`}>Уже зарегистрированы?<Link to={'/login'} className={styles.link} >Войти</Link></p>
                 </div>
             </form>
 
