@@ -3,8 +3,8 @@ import { checkReponse } from "./checkResponse";
 
 
 export function getUser(){
-  return fetch(`${NORMA_API}/auth/login`,{
-    method: "POST",
+  return fetch(`${NORMA_API}/auth/user`,{
+    method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       authorization: localStorage.getItem("accessToken")
