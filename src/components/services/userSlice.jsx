@@ -1,7 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getIngridient } from '../../utils/burger-api';
-import { getLogin, getLogout } from '../../utils/auth';
-import { login, logout, register } from './actions';
+import { createSlice } from '@reduxjs/toolkit';
+import { login, logout, patchUser, register } from './actions';
 
 
 const userSlice = createSlice({
@@ -56,7 +54,9 @@ const userSlice = createSlice({
             .addCase(register.fulfilled, (state, action) => {
               state.user = action.payload;
             })
-
+            .addCase(patchUser.fulfilled, (state, action) => {
+              state.user = action.payload;
+            })
       }
     });
     

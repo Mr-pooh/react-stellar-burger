@@ -2,48 +2,43 @@ import React, { useState } from 'react';
 import styles from '../form.module.css'
 import { Button, PasswordInput, EmailInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../../useForm/useForm';
+import { patchUser } from '../../services/actions';
 
 
 function ProfileForm(){
 
+    const dispatch = useDispatch();
+
     const user = useSelector(store => store.user.user)
+    const { values, handleChange, setValues } = useForm({ name: '', email: ''});
+   
 
-    console.log(user)
+    React.useEffect(()=> {
+      setValues({
+        name: user.name,
+        email: user.email
+      })
+    }, [setValues, user])
 
-    const [valuePassword, setValuePassword] = React.useState('')
-    const onChangePassword = e => {
-        setValuePassword(e.target.value)
+    const [activeButton, setActiveButton] = useState(false)
+
+    const onChange = (e) =>{
+      setActiveButton(true)
+      handleChange(e)
     }
-
-    const [value, setValue] = React.useState(user.email)
-    const onChange = e => {
-      setValue(e.target.value)
-    }
-
-    const [valueName, setValueName] = React.useState(user.name)
-    const onChangeName = e => {
-        setValueName(e.target.value)
-        
-    }
-
     
     const inputRef = React.useRef(null)
     
-
     const onIconClick = () => {  
       setTimeout(() => inputRef.current.focus(), 0)
       onFocus()
-      
     }
-
     
-
     const onBlur = () => {
-      
-        inputRef.current.disabled = true
-        inputRef.current.classList.add('input__textfield-disabled')  
-      
+      inputRef.current.disabled = true
+      inputRef.current.classList.add('input__textfield-disabled')  
     }
 
     const onFocus= () => {
@@ -51,17 +46,32 @@ function ProfileForm(){
       inputRef.current.classList.remove('input__textfield-disabled')
     }
 
+    const onSubmit = (e) => {
+      e.preventDefault()
+      dispatch(patchUser(values))
+      setActiveButton(false);
+    }
+
+    const onReset = (e) => {
+      e.preventDefault();
+      setValues({
+        ...values,
+        name: user.name,
+        email: user.email
+      });
+      setActiveButton(false);
+    }
 
 
     return (
         
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
                 <Input
                     ref={inputRef}
                     type='text'
                     name={'name'}
-                    value={valueName}
-                    onChange={onChangeName}
+                    value={values.name}
+                    onChange={onChange}
                     onIconClick={onIconClick}  
                     placeholder={'Имя'} 
                     icon='EditIcon'
@@ -71,17 +81,23 @@ function ProfileForm(){
                 />
                 <EmailInput
                   onChange={onChange}
-                  value={value}
+                  value={values.email}
                   name={'email'}
                   placeholder="Логин"
                   isIcon={true}
                 />
                 <PasswordInput
-                  onChange={onChangePassword}
-                  value={valuePassword}
+                  onChange={onChange}
+                  value={''}
                   name={'password'}
                   icon="EditIcon"
                 />
+                {activeButton && (
+                  <div className={styles.containerButton}>
+                    <Button htmlType='reset' type="secondary" size="medium">Отменить</Button>
+                    <Button htmlType='submit' type="primary" size="medium">Сохранить</Button>
+                  </div>
+                )}
             </form>
 
     )

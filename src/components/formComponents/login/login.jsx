@@ -4,48 +4,47 @@ import { Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../services/actions';
+import { useForm } from '../../useForm/useForm';
 
 
 function Login(){
 
   const dispatch = useDispatch();
 
-    const [password, setPassword] = React.useState('')
-    const onChangePassword = e => {
-        setPassword(e.target.value)
-    }
+  const { values, handleChange } = useForm({ email: '', password: ''});
 
-    const [email, setEmail] = React.useState('')
-    const onChange = e => {
-      setEmail(e.target.value)
-    }
+  const onChange = (e) => {
+    handleChange(e)
+  }
 
-    const onClick = () => {
-      dispatch(login({email, password}))
-    }
 
-    return (
-        
-            <form className={styles.form}>
-                <h1 className={styles.title + ` text text_type_main-large`}>Вход</h1>
-                <EmailInput
-                  onChange={onChange}
-                  value={email}
-                  name={'email'}
-                  isIcon={false}
-                />
-                <PasswordInput
-                  onChange={onChangePassword}
-                  value={password}
-                  name={'password'}
-                  extraClass="mb-2"
-                />
-                <Button htmlType="button" type="primary" size="medium" onClick={onClick}>Войти</Button>
-                <div className={styles.text}>
-                    <p className={`text text_type_main-default text_color_inactive`}>Вы — новый пользователь?<Link to={'/register'} className={styles.link} >Зарегистрироваться</Link></p>
-                    <p className={`text text_type_main-default text_color_inactive`}>Забыли пароль?<Link to={'/forgot-password'} className={styles.link} >Восстановить пароль</Link></p>
-                </div>
-            </form>
+  const onSubmit = (e) => {
+    e.preventDefault()
+    dispatch(login(values))
+  }
+
+  return (
+  
+      <form className={styles.form} onSubmit={onSubmit}>
+          <h1 className={styles.title + ` text text_type_main-large`}>Вход</h1>
+          <EmailInput
+            onChange={onChange}
+            value={values.email}
+            name={'email'}
+            isIcon={false}
+          />
+          <PasswordInput
+            onChange={onChange}
+            value={values.password}
+            name={'password'}
+            extraClass="mb-2"
+          />
+          <Button htmlType="submit" type="primary" size="medium">Войти</Button>
+          <div className={styles.text}>
+              <p className={`text text_type_main-default text_color_inactive`}>Вы — новый пользователь?<Link to={'/register'} className={styles.link} >Зарегистрироваться</Link></p>
+              <p className={`text text_type_main-default text_color_inactive`}>Забыли пароль?<Link to={'/forgot-password'} className={styles.link} >Восстановить пароль</Link></p>
+          </div>
+      </form>
 
     )
 }

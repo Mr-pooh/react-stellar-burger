@@ -1,15 +1,50 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {setUser, setAuthChecked} from "./userSlice";
 import { getIngridient } from "../../utils/burger-api";
-import { getLogin, getLogout, getRefreshToken, getRegister, getUser } from "../../utils/auth";
+import { fetchWithRefresh, getForgotPassword, getLogin, getLogout, getRefreshToken, getRegister, getResetPassword, getUser } from "../../utils/auth";
 
-export const userAction = () => {
+export const userAuth = () => {
     return (dispatch) => {
-        return getUser().then((res) => {
+        return fetchWithRefresh(getUser({method: 'GET'})).then((res) => {
             dispatch(setUser(res.user));
         });
     };
 };
+
+export const patchUser = createAsyncThunk(
+    "user/patchUser",
+    async ({email, name})=> {
+        const res = await fetchWithRefresh(getUser({method: 'PATCH', body: JSON.stringify({name: name, email: email})}))
+        return res.user
+        
+    }
+)
+
+export const forgotPassword = (email, linkRes) => {
+    return async () => {
+        try {
+            const res = await getForgotPassword(email);
+            if(res.success){
+                return linkRes
+            } 
+        } catch (err) {
+            return console.log(err);
+        }
+    }
+}
+
+export const resetPassword = ({password, token}, linkRes) => {
+    return async () => {
+        try {
+            const res = await getResetPassword({password, token});
+            if(res.success){
+                return linkRes
+            } 
+        } catch (err) {
+            return console.log(err);
+        }
+    }
+}
 
 export const login = createAsyncThunk(
     "user/login",
@@ -34,7 +69,7 @@ export const register = createAsyncThunk(
 export const checkUserAuth = () => {
     return (dispatch) => {
         if (localStorage.getItem("accessToken")){
-            dispatch(userAction())
+            dispatch(userAuth())
                 .catch(() => {
                     localStorage.removeItem("accessToken");
                     localStorage.removeItem("refreshToken");
