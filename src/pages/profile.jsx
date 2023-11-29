@@ -1,16 +1,7 @@
-import ProfileForm from "../components/formComponents/profileForm/profileForm";
 import Profile from "../components/profile/profile";
 
-
-
-
 function ProfilePage() {
-    return (
-        
-            <Profile />
-        
-    )
+  return <Profile />;
 }
 
-
-export default ProfilePage
+export default ProfilePage;

@@ -1,13 +1,7 @@
-
-import Login from '../components/formComponents/login/login'
+import Login from "../components/formComponents/login/login";
 
 function LoginPage() {
-
-
-    return (
-        <Login />
-    )
+  return <Login />;
 }
 
-export default LoginPage
-
+export default LoginPage;
