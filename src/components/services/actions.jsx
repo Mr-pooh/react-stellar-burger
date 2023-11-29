@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {setUser, setAuthChecked} from "./userSlice";
 import { getIngridient } from "../../utils/burger-api";
-import { fetchWithRefresh, getForgotPassword, getLogin, getLogout, getRefreshToken, getRegister, getResetPassword, getUser } from "../../utils/auth";
+import { fetchWithRefresh, getForgotPassword, getLogin, getLogout, getRegister, getResetPassword, getUser } from "../../utils/auth";
 
 export const userAuth = () => {
     return (dispatch) => {
@@ -20,26 +20,31 @@ export const patchUser = createAsyncThunk(
     }
 )
 
-export const forgotPassword = (email, linkRes) => {
+export const forgotPassword = (email, navigate) => {
     return async () => {
         try {
             const res = await getForgotPassword(email);
-            if(res.success){
-                return linkRes
-            } 
+            localStorage.setItem('resetPass', res.message);
+            if(localStorage.getItem('resetPass')){
+                return navigate()
+            }
+            
         } catch (err) {
             return console.log(err);
         }
     }
 }
 
-export const resetPassword = ({password, token}, linkRes) => {
+export const resetPassword = ({password, token}, navigate) => {
     return async () => {
         try {
             const res = await getResetPassword({password, token});
+            localStorage.removeItem('resetPass')
             if(res.success){
-                return linkRes
-            } 
+                return navigate()
+            }
+            
+            
         } catch (err) {
             return console.log(err);
         }

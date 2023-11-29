@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { addIngredient, addBun, ingredientSwitch, deleteIngredient, getStoreConstructor } from '../services/constructorBurgerSlice.jsx';
 import { getStoreOrderDetails, orderDetailsApi } from '../services/orderDetailsSlice.jsx';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -20,7 +21,10 @@ export default function BurgerConstructor() {
 
     const [modal, setModal] = useState(false)
 
+    const user = useSelector(store => store.user.user)
 
+    const navigate = useNavigate();
+    
     const dispatch = useDispatch();
 
     const [, dropTarget] = useDrop({
@@ -92,7 +96,12 @@ export default function BurgerConstructor() {
      }, [bun, ingredients])
 
     const open = () => {
+      if(!user){
+        navigate('/login')
+      }
+      else{
         setModal(true)
+      }
         
     }
 

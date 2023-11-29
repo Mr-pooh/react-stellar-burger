@@ -39,3 +39,11 @@
     text-decoration: none;
     
 }
+
+.logout {
+    cursor: pointer;
+}
+
+.logout:hover{
+    color: #f2f2f3
+}

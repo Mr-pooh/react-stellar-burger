@@ -1,4 +1,4 @@
-import React from 'react';
+
 import styles from '../form.module.css'
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ function ForgotPassword(){
 
     const onSubmit = (e) => {
       e.preventDefault()
-      dispatch(forgotPassword(values.email, navigate('/reset-password')))
+      dispatch(forgotPassword(values.email, ()=> navigate('/reset-password')))
     }
 
     return (

@@ -10,7 +10,7 @@ export default function Navigation() {
         <nav className={styles.navigation + ' p-4'}>
             <div className={styles.headerLink}>
                 <NavLink to="/" className={styles.link}><HeaderLink text='Конструктор' icon={<BurgerIcon type="primary" />} nav={'/'} /></NavLink>
-                <NavLink to="" className={styles.link}><HeaderLink text='Лента заказов' icon={<ListIcon type="secondary" />} nav={null} /></NavLink>
+                <NavLink to="/profile/orders" className={styles.link}><HeaderLink text='Лента заказов' icon={<ListIcon type="secondary" />} nav={null} /></NavLink>
             </div>
             <Logo  />
 
