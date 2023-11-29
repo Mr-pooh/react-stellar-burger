@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "nanoid";
-import { orderDetailsApi } from "./orderDetailsSlice";
-
+import { orderDetailsApi } from "./actions";
 const constructorBurgerSlice = createSlice({
   name: "constructorBurger",
   initialState: {

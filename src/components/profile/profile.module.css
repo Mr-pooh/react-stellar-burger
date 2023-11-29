@@ -29,6 +29,7 @@
   opacity: 0.4;
   text-wrap: wrap;
   line-height: 24px;
+  white-space-collapse: break-spaces;
 }
 
 .link {

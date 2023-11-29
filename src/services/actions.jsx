@@ -10,6 +10,7 @@ import {
   getResetPassword,
   getUser,
 } from "../utils/auth";
+import { orderApi } from "../utils/order-api";
 
 export const userAuth = () => {
   return (dispatch) => {
@@ -36,7 +37,7 @@ export const forgotPassword = (email, navigate) => {
   return async () => {
     try {
       const res = await getForgotPassword(email);
-      if(email !== ''){
+      if (email !== "" && res.success) {
         localStorage.setItem("resetPass", res.message);
       }
       if (localStorage.getItem("resetPass")) {
@@ -107,3 +108,10 @@ export const logout = createAsyncThunk("user/logout", async () => {
 export const initialIngridient = createAsyncThunk("initial/cart", async () => {
   return await getIngridient();
 });
+
+export const orderDetailsApi = createAsyncThunk(
+  "orderDetails/api",
+  async (ingredients) => {
+    return await fetchWithRefresh(orderApi(ingredients));
+  }
+);

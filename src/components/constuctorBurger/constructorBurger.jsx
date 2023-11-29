@@ -17,11 +17,9 @@ import {
   deleteIngredient,
   getStoreConstructor,
 } from "../../services/constructorBurgerSlice.jsx";
-import {
-  getStoreOrderDetails,
-  orderDetailsApi,
-} from "../../services/orderDetailsSlice.jsx";
+import { getStoreOrderDetails } from "../../services/orderDetailsSlice.jsx";
 import { useNavigate } from "react-router-dom";
+import { orderDetailsApi } from "../../services/actions";
 
 export default function BurgerConstructor() {
   const { bun, ingredients } = useSelector(getStoreConstructor);
@@ -94,14 +92,13 @@ export default function BurgerConstructor() {
 
   const pushElement = React.useCallback(() => {
     if (bun !== 0) {
-        const mass = [bun._id].concat(ingredients.map((item) => item._id))
-        mass.push(bun._id)
-      return mass
+      const mass = [bun._id].concat(ingredients.map((item) => item._id));
+      mass.push(bun._id);
+      return mass;
     } else {
       return Error;
     }
   }, [bun, ingredients]);
-
 
   const open = () => {
     if (!user) {
@@ -123,7 +120,7 @@ export default function BurgerConstructor() {
 
   React.useEffect(() => {
     if (modal) {
-        console.log(pushElement())
+      console.log(pushElement());
       dispatch(orderDetailsApi(pushElement()));
     }
   }, [!modal, dispatch]);

@@ -24,6 +24,13 @@ function App() {
   }, [dispatch]);
 
   const location = useLocation();
+
+  React.useEffect(() => {
+    if (location.pathname !== "/reset-password") {
+      localStorage.removeItem("resetPass");
+    }
+  }, [location]);
+
   const navigate = useNavigate();
   const background = location.state && location.state.background;
 

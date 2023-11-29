@@ -1,12 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { orderApi } from "../utils/order-api";
-
-export const orderDetailsApi = createAsyncThunk(
-  "orderDetails/api",
-  async (ingredients) => {
-    return await orderApi(ingredients);
-  }
-);
+import { createSlice } from "@reduxjs/toolkit";
+import { orderDetailsApi } from "./actions";
 
 const orderDetailsSlice = createSlice({
   name: "orderDetails",
