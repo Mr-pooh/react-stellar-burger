@@ -1,7 +1,7 @@
 .constructorBurger {
   display: flex;
   flex-direction: column;
-  text-wrap: wrap;
+  white-space: normal;
   max-width: 600px;
   max-height: 912px;
 }
