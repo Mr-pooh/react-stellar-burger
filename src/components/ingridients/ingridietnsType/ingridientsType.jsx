@@ -56,13 +56,9 @@ export default function IngridientsType({ item }) {
     };
   });
 
-  const id = React.useCallback(() => {
-    return item._id;
-  }, [item]);
-
   return (
     <Link
-      to={`/ingredients/${id()}`}
+      to={`/ingredients/${item._id}`}
       state={{ background: location }}
       className={styles.link}
     >
