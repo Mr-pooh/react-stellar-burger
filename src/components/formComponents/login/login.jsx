@@ -32,6 +32,7 @@ function Login() {
         value={values.email}
         name={"email"}
         isIcon={false}
+        autoComplete="on"
       />
       <PasswordInput
         onChange={onChange}

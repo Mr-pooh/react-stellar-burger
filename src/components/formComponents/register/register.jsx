@@ -38,12 +38,14 @@ function Register() {
         value={values.name}
         onChange={onChange}
         placeholder={"Имя"}
+        autoComplete="on"
       />
       <EmailInput
         onChange={onChange}
         value={values.email}
         name={"email"}
         isIcon={false}
+        autoComplete="on"
       />
       <PasswordInput
         onChange={onChange}

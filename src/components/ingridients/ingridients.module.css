@@ -28,7 +28,7 @@
 
 .custom_text {
   text-align: center;
-  text-wrap: wrap;
+  white-space: normal;
   width: 100%;
 }
 

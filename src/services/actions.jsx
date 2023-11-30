@@ -3,11 +3,9 @@ import { setUser, setAuthChecked } from "./userSlice";
 import { getIngridient } from "../utils/burger-api";
 import {
   fetchWithRefresh,
-  getForgotPassword,
   getLogin,
   getLogout,
   getRegister,
-  getResetPassword,
   getUser,
 } from "../utils/auth";
 import { orderApi } from "../utils/order-api";
@@ -32,36 +30,6 @@ export const patchUser = createAsyncThunk(
     return res.user;
   }
 );
-
-export const forgotPassword = (email, navigate) => {
-  return async () => {
-    try {
-      const res = await getForgotPassword(email);
-      if (email !== "" && res.success) {
-        localStorage.setItem("resetPass", res.message);
-      }
-      if (localStorage.getItem("resetPass")) {
-        return navigate();
-      }
-    } catch (err) {
-      return console.log(err);
-    }
-  };
-};
-
-export const resetPassword = ({ password, token }, navigate) => {
-  return async () => {
-    try {
-      const res = await getResetPassword({ password, token });
-      localStorage.removeItem("resetPass");
-      if (res.success) {
-        return navigate();
-      }
-    } catch (err) {
-      return console.log(err);
-    }
-  };
-};
 
 export const login = createAsyncThunk(
   "user/login",

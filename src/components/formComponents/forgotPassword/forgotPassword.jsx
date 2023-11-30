@@ -5,12 +5,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../useForm/useForm";
-import { useDispatch } from "react-redux";
-import { forgotPassword } from "../../../services/actions";
+import { getForgotPassword } from "../../../utils/auth";
 
 function ForgotPassword() {
-  const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const { values, handleChange } = useForm({ email: "" });
@@ -21,7 +18,14 @@ function ForgotPassword() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(forgotPassword(values.email, () => navigate("/reset-password")));
+    if (values.email !== "") {
+      getForgotPassword(values.email)
+        .then((res) => {
+          res.success && localStorage.setItem("resetPass", res.message);
+        })
+        .then(() => navigate("/reset-password"))
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -35,6 +39,7 @@ function ForgotPassword() {
         name={"email"}
         isIcon={false}
         placeholder={"Укажите e-mail"}
+        autoComplete="on"
       />
       <Button htmlType="submit" type="primary" size="medium">
         Восстановить
