@@ -13,6 +13,10 @@
 }
 
 .pre {
+  display: flex;
   margin: auto;
   font-size: 1.5rem;
+  flex-direction: column;
+  height: inherit;
+  justify-content: flex-start;
 }

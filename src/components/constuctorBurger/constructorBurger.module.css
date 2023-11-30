@@ -1,75 +1,71 @@
 .constructorBurger {
-   display: flex; 
-   flex-direction: column;
-   text-wrap: wrap;
-   max-width: 600px;
-    max-height: 912px;
+  display: flex;
+  flex-direction: column;
+  white-space: normal;
+  max-width: 600px;
+  max-height: 912px;
 }
 
 .constructorElement {
-    padding: 16px 24px;
-    display: flex;
-    border-radius: var(--common-border-radius-s);
-    background: var(--background-element);
-    max-width: 536px;
-    min-width: 536px;
-    width: 100%;
-    min-height: 500px;
-    font-family: 'Jet Brains Mono';
-    font-size: 16px;
-    line-height: 24px;
-    color: #F2F2F3;
-    flex-grow: 1;
-    box-sizing: border-box;
-    text-align: center;
-    margin-block: 0;
-    align-items: center;
-    justify-content: center;
+  padding: 16px 24px;
+  display: flex;
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+  max-width: 536px;
+  min-width: 536px;
+  width: 100%;
+  min-height: 500px;
+  font-family: "Jet Brains Mono";
+  font-size: 16px;
+  line-height: 24px;
+  color: #f2f2f3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  text-align: center;
+  margin-block: 0;
+  align-items: center;
+  justify-content: center;
 }
 
-
 .constructorElementTop {
-    border-radius: var(--top-constructor-item-border-radius);
-    min-height: 80px;
+  border-radius: var(--top-constructor-item-border-radius);
+  min-height: 80px;
 }
 
 .constructorElementBottom {
-    border-radius: var(--bottom-constructor-item-border-radius);
-    min-height: 80px;
+  border-radius: var(--bottom-constructor-item-border-radius);
+  min-height: 80px;
 }
 
-
 .itemSelect {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    column-gap: 8px;
-    row-gap: 10px;
-    
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 10px;
 }
 
 .ingridientsSelect {
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
-    overflow-y: scroll;
-    max-width: inherit;
-    max-height: inherit;
-    gap: 10px;
-    
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  overflow-y: scroll;
+  max-width: inherit;
+  max-height: inherit;
+  gap: 10px;
 }
 
 .summ {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .constructorItems {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: inherit 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: inherit;
 }
