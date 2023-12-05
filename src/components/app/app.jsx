@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./app.module.css";
 import AppHeader from "../header/header";
 import { useDispatch } from "react-redux";
-import { checkUserAuth, initialIngridient } from "../../services/actions";
+import { checkUserAuth, disconnect, initialIngridient } from "../../services/actions";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import HomePage from "../../pages/home";
 import IngridientDetails from "../ingredientDetails/ingridientDetails";
@@ -14,6 +14,8 @@ import ResetPasswordPage from "../../pages/reset-password";
 import ProfilePage from "../../pages/profile";
 import NonFound404 from "../../pages/notFound404";
 import { OnlyAuth, OnlyUnAuth } from "../../services/ProtectedRouteElement";
+import FeedPage from "../../pages/feed";
+import { ORDERS_ALL_SERVER_URL } from "../../utils/wsUtil";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +30,9 @@ function App() {
   React.useEffect(() => {
     if (location.pathname !== "/reset-password") {
       localStorage.removeItem("resetPass");
+    }
+    if(location.pathname !== '/feed'){
+      dispatch(disconnect(ORDERS_ALL_SERVER_URL))
     }
   }, [location]);
 
@@ -46,6 +51,7 @@ function App() {
         <main className={styles.main}>
           <Routes location={background || location}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/feed" element={<FeedPage />} />
             <Route
               path="/login"
               element={<OnlyUnAuth component={<LoginPage />} />}

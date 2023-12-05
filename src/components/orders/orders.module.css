@@ -1,0 +1,45 @@
+.orders {
+  max-width: 600px;
+  max-height: 912px;
+  background: var(--interface-bg, #131316);
+}
+
+.link {
+  text-decoration: none;
+  color: #f2f2f3;
+}
+
+.elem {
+  display: flex;
+  width: auto;
+  padding: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: normal;
+  gap: 24px;
+  border-radius: 40px;
+  background: var(--interface-modal-bg, #1c1c21);
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.04),
+    0px 0px 2px 0px rgba(0, 0, 0, 0.06), 0px 4px 8px 0px rgba(0, 0, 0, 0.04);
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  max-height: 24px;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: fit-content;
+  overflow-y: scroll;
+  max-width: inherit;
+  max-height: inherit;
+  padding-inline-start: unset;
+  list-style-type: none;
+}
