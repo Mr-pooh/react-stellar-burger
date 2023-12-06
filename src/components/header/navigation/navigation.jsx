@@ -27,7 +27,7 @@ export default function Navigation() {
             text="Лента заказов"
             icon={<ListIcon type="primary" />}
             iconFalse={<ListIcon type="secondary" />}
-            nav={"/profile/orders"}
+            nav={"/feed"}
           />
         </NavLink>
       </div>

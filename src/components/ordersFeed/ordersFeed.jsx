@@ -17,7 +17,7 @@ export default function OrdersFeed() {
 
   return (
     <section className={styles.section}>
-      <h1 className="text text_type_main-large pt-10 pd-5">Лента заказов</h1>
+      <h1 className={"text text_type_main-large pt-10 pb-5"}>Лента заказов</h1>
       <div className={styles.orders}>
         <Orders />
         <OrderInfo />

@@ -16,7 +16,7 @@ export default function OrderElement({item}){
       state={{ background: location }}
       className={styles.link}
     >
-      <li className={styles.elem + ` mt-6`} >
+      <li className={styles.elem} >
         <div className={styles.header}>
           <h3 className={`text text_type_digits-default`}>#{item.number}</h3>
           <p className={`text text_type_main-default text_color_inactive`}><FormattedDate date={new Date(item.createdAt)}  />  i-GMT+3</p>
