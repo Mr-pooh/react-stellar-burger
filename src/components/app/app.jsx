@@ -31,7 +31,7 @@ function App() {
     if (location.pathname !== "/reset-password") {
       localStorage.removeItem("resetPass");
     }
-    if(location.pathname !== '/feed'){
+    if(location.pathname !== '/feed' ){
       dispatch(disconnect(ORDERS_ALL_SERVER_URL))
     }
   }, [location]);
