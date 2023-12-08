@@ -61,8 +61,34 @@
 }
 
 .imageIngr {
+  width: 112px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.imageArr {
   display: flex;
+  width: 64px;
+  height: 64px;
+  justify-content: center;
   align-items: center;
+  flex-shrink: 0;
+  border-radius: 100px;
+  border: 2px solid var(--button-normal, #801ab2);
+  background: var(--interface-bg, #131316);
+
+  position: sticky;
+  left: 10%;
+}
+
+.imageContainer {
+  display: flex;
+  padding-inline-start: unset;
+  max-width: 304px;
+  flex-wrap: nowrap;
+  list-style-type: none;
+  overflow: hidden;
+  position: relative;
 }
 
 .name {

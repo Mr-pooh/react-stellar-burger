@@ -4,34 +4,17 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
-import { getStoreAllOrders } from "../../../services/ordersReducer";
-import { getStoreInitial } from "../../../services/initialSlice";
-import { element } from "prop-types";
-import React from "react";
 
-export default function OrderElement({ item }) {
+export default function OrderElement({ item, arrIngr }) {
   const location = useLocation();
 
-  const { data } = useSelector(getStoreInitial);
 
-  let arr = []
-  
-  const itemFeed = () => {
-    return item.ingredients.map((elem) => {
-      return data.map((element) => {
-        if( element._id === elem){
-          arr.push(element)
-          
-        }
-        
-      });
-    });
-  };
-  
-    itemFeed()
+  const arrImg = () => {
+    return arrIngr.map((elem, i) => {
+      return <li key={i} className={styles.imageArr}><img className={styles.imageIngr} src={elem.image_mobile} /></li>
+    })
+  }
 
-  console.log(arr);
 
   return (
     <Link
@@ -50,7 +33,7 @@ export default function OrderElement({ item }) {
           {item.name}
         </h1>
         <div className={styles.ingredientContainer}>
-          <div className={styles.imageIngr}>sssssssssssssssssss</div>
+          <ul className={styles.imageContainer}>{arrImg()}</ul>
           <div className={styles.price}>
             <h4 className="text text_type_digits-default p-1">250</h4>
             <CurrencyIcon type="primary" />
