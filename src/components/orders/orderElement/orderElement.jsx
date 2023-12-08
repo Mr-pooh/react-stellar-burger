@@ -8,13 +8,24 @@ import {
 export default function OrderElement({ item, arrIngr }) {
   const location = useLocation();
 
-
   const arrImg = () => {
     return arrIngr.map((elem, i) => {
-      return <li key={i} className={styles.imageArr}><img className={styles.imageIngr} src={elem.image_mobile} /></li>
-    })
-  }
-
+      return (
+        i < 6 && (
+          <li
+            key={i}
+            className={styles.imageArr}
+            style={{ zIndex: arrIngr.length - i,
+              '::after': {
+                opacity: i===6 && 0.6
+              } }}
+          >
+            <img className={styles.imageIngr} src={elem.image_mobile} />
+          </li>
+        )
+      );
+    });
+  };
 
   return (
     <Link

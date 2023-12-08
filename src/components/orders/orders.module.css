@@ -76,19 +76,22 @@
   border-radius: 100px;
   border: 2px solid var(--button-normal, #801ab2);
   background: var(--interface-bg, #131316);
+  margin-right: -20px;
+}
 
-  position: sticky;
-  left: 10%;
+.imageArr::after {
+  fill: var(--interface-modal-bg, #1C1C21);
+  opacity: 0.6;
+  z-index: 10;
 }
 
 .imageContainer {
   display: flex;
   padding-inline-start: unset;
   max-width: 304px;
+  width: 100%;
   flex-wrap: nowrap;
   list-style-type: none;
-  overflow: hidden;
-  position: relative;
 }
 
 .name {
