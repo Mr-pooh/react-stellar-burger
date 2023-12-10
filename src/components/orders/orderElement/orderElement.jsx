@@ -15,17 +15,38 @@ export default function OrderElement({ item, arrIngr }) {
           <li
             key={i}
             className={styles.imageArr}
-            style={{ zIndex: arrIngr.length - i,
-              '::after': {
-                opacity: i===6 && 0.6
-              } }}
+            style={{ zIndex: arrIngr.length - i }}
           >
-            <img className={styles.imageIngr} src={elem.image_mobile} />
+            {i === 5 && arrIngr.length > 6 ? (
+              <>
+                <div
+                  className={
+                    styles.imgOverlay + ` text text_type_main-default `
+                  }
+                >
+                  +{arrIngr.length - 6}
+                </div>
+                <img
+                  alt={elem.name}
+                  className={styles.imageIngr}
+                  style={{ opacity: 0.6 }}
+                  src={elem.image_mobile}
+                />
+              </>
+            ) : (
+              <img
+                alt={elem.name}
+                className={styles.imageIngr}
+                src={elem.image_mobile}
+              />
+            )}
           </li>
         )
       );
     });
   };
+
+  const totalPrice = arrIngr.reduce((a, b) => a + b.price, 0);
 
   return (
     <Link
@@ -46,7 +67,7 @@ export default function OrderElement({ item, arrIngr }) {
         <div className={styles.ingredientContainer}>
           <ul className={styles.imageContainer}>{arrImg()}</ul>
           <div className={styles.price}>
-            <h4 className="text text_type_digits-default p-1">250</h4>
+            <h4 className="text text_type_digits-default p-1">{totalPrice}</h4>
             <CurrencyIcon type="primary" />
           </div>
         </div>

@@ -2,7 +2,11 @@ import React from "react";
 import styles from "./app.module.css";
 import AppHeader from "../header/header";
 import { useDispatch } from "react-redux";
-import { checkUserAuth, disconnect, initialIngridient } from "../../services/actions";
+import {
+  checkUserAuth,
+  disconnect,
+  initialIngridient,
+} from "../../services/actions";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import HomePage from "../../pages/home";
 import IngridientDetails from "../ingredientDetails/ingridientDetails";
@@ -31,8 +35,8 @@ function App() {
     if (location.pathname !== "/reset-password") {
       localStorage.removeItem("resetPass");
     }
-    if(location.pathname !== '/feed' ){
-      dispatch(disconnect(ORDERS_ALL_SERVER_URL))
+    if (location.pathname !== "/feed") {
+      dispatch(disconnect(ORDERS_ALL_SERVER_URL));
     }
   }, [location]);
 

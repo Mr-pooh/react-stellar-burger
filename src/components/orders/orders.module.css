@@ -77,12 +77,16 @@
   border: 2px solid var(--button-normal, #801ab2);
   background: var(--interface-bg, #131316);
   margin-right: -20px;
+  position: relative;
 }
 
-.imageArr::after {
+.imgOverlay {
   fill: var(--interface-modal-bg, #1C1C21);
-  opacity: 0.6;
-  z-index: 10;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
 .imageContainer {

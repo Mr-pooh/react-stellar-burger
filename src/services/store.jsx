@@ -13,7 +13,7 @@ import {
   wsClose as OrdersAllWsClose,
   wsMessage as OrdersAllWsMessage,
   wsError as OrdersAllWsError,
-  wsConnecting as OrdersAllWsConnecting
+  wsConnecting as OrdersAllWsConnecting,
 } from "./actions";
 import { socketMiddleware } from "./middleware/ordersMiddleware";
 
@@ -25,8 +25,7 @@ const OrdersAllMiddleware = socketMiddleware({
   onClose: OrdersAllWsClose,
   onError: OrdersAllWsError,
   onMessage: OrdersAllWsMessage,
-})
-
+});
 
 export const store = configureStore({
   reducer: {
@@ -37,7 +36,7 @@ export const store = configureStore({
     user: userReducer,
     ordersAll: ordersAllReducer,
   },
-  middleware: (getDefaultMiddleware) =>{
-    return getDefaultMiddleware().concat(OrdersAllMiddleware)
-  }
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(OrdersAllMiddleware);
+  },
 });

@@ -84,12 +84,10 @@ export const orderDetailsApi = createAsyncThunk(
   }
 );
 
-
-
-export const connect = createAction('ORDERS_ALL_CONNECT')
-export const disconnect = createAction('ORDERS_ALL_DISCONNECT');
-export const wsConnecting = createAction('ORDERS_ALL_WS_CONNECTING');
-export const wsOpen = createAction('ORDERS_ALL_WS_OPEN');
-export const wsClose = createAction('ORDERS_ALL_WS_CLOSE');
-export const wsMessage = createAction('ORDERS_ALL_WS_MESSAGE');
-export const wsError = createAction('ORDERS_ALL_WS_ERROR');
+export const connect = createAction("ORDERS_ALL_CONNECT");
+export const disconnect = createAction("ORDERS_ALL_DISCONNECT");
+export const wsConnecting = createAction("ORDERS_ALL_WS_CONNECTING");
+export const wsOpen = createAction("ORDERS_ALL_WS_OPEN");
+export const wsClose = createAction("ORDERS_ALL_WS_CLOSE");
+export const wsMessage = createAction("ORDERS_ALL_WS_MESSAGE");
+export const wsError = createAction("ORDERS_ALL_WS_ERROR");

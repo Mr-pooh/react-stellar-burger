@@ -14,8 +14,8 @@ export default function Orders() {
     if (ordersFeed) {
       return ordersFeed.orders.map((item) => {
         let arr = [];
-        item.ingredients.map((elem) => {
-          data.map((element) => {
+        item.ingredients.forEach((elem) => {
+          data.forEach((element) => {
             if (element._id === elem) {
               arr.push(element);
             }

@@ -6,11 +6,11 @@ import { getStoreAllOrders } from "../../../services/ordersReducer";
 export default function OrderInfo() {
   const { ordersFeed } = useSelector(getStoreAllOrders);
 
-  const dyveStyle = (type) =>{
-    if(type !== 'done'){
-      return {color: '#f2f2f3'}
+  const dyveStyle = (type) => {
+    if (type !== "done") {
+      return { color: "#f2f2f3" };
     }
-  }
+  };
 
   const numberElem = (type) => {
     return ordersFeed.orders
