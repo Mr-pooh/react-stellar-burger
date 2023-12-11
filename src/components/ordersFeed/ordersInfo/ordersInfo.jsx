@@ -17,7 +17,7 @@ export default function OrderInfo() {
       .filter((item) => item.status === type)
       .map((item, i) => {
         return (
-          i < 10 && (
+          i < 20 && (
             <li
               className={styles.numbersOrder + ` text text_type_digits-default`}
               key={item._id}

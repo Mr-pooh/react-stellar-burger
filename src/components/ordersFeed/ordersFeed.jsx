@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Orders from "../orders/orders";
 import OrderInfo from "./ordersInfo/ordersInfo";
-import { connect, disconnect } from "../../services/actions";
+import { connect } from "../../services/actions";
 import React from "react";
 import { ORDERS_ALL_SERVER_URL } from "../../utils/wsUtil";
 import styles from "./ordersFeed.module.css";
@@ -9,11 +9,9 @@ import styles from "./ordersFeed.module.css";
 export default function OrdersFeed() {
   const dispatch = useDispatch();
 
-  const open = () => dispatch(connect(ORDERS_ALL_SERVER_URL));
-
-  React.useEffect(() => {
-    open();
-  }, [dispatch]);
+  // React.useEffect(() => {
+  //   dispatch(connect(ORDERS_ALL_SERVER_URL));
+  // }, [dispatch]);
 
   return (
     <section className={styles.section}>

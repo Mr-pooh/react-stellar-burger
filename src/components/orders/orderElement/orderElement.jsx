@@ -1,12 +1,32 @@
+import React from 'react'
 import { Link, useLocation } from "react-router-dom";
 import styles from "../orders.module.css";
 import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch } from "react-redux";
+import { closeModal, openModal } from "../../../services/modalIngredientSlice";
 
 export default function OrderElement({ item, arrIngr }) {
   const location = useLocation();
+
+  const dispatch = useDispatch();
+
+
+  const open = () => {
+    dispatch(openModal(item));
+  };
+
+  const onClose = () => {
+    dispatch(closeModal());
+  };
+
+  React.useEffect(() => {
+    return () => {
+      document.removeEventListener("click", onClose);
+    };
+  });
 
   const arrImg = () => {
     return arrIngr.map((elem, i) => {
@@ -16,6 +36,7 @@ export default function OrderElement({ item, arrIngr }) {
             key={i}
             className={styles.imageArr}
             style={{ zIndex: arrIngr.length - i }}
+            onClick={open}
           >
             {i === 5 && arrIngr.length > 6 ? (
               <>
@@ -61,7 +82,7 @@ export default function OrderElement({ item, arrIngr }) {
             <FormattedDate date={new Date(item.createdAt)} /> i-GMT+3
           </p>
         </div>
-        <h1 className={styles.name + ` text text_type_main-smal`}>
+        <h1 className={styles.name + ` text text_type_main-medium`}>
           {item.name}
         </h1>
         <div className={styles.ingredientContainer}>

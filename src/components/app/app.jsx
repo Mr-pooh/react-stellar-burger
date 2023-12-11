@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import {
   checkUserAuth,
   disconnect,
+  connect,
   initialIngridient,
 } from "../../services/actions";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ import NonFound404 from "../../pages/notFound404";
 import { OnlyAuth, OnlyUnAuth } from "../../services/ProtectedRouteElement";
 import FeedPage from "../../pages/feed";
 import { ORDERS_ALL_SERVER_URL } from "../../utils/wsUtil";
+import OrderInfoDetails from "../orderInfoDetails/orderInfoDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,10 +37,16 @@ function App() {
     if (location.pathname !== "/reset-password") {
       localStorage.removeItem("resetPass");
     }
-    if (location.pathname !== "/feed") {
+    if(location.pathname === `/feed`){
+      dispatch(connect(ORDERS_ALL_SERVER_URL))
+    }
+    if (location.pathname !== `/feed`) {
       dispatch(disconnect(ORDERS_ALL_SERVER_URL));
     }
-  }, [location]);
+  }, [dispatch, location]);
+
+  
+  console.log(location)
 
   const navigate = useNavigate();
   const background = location.state && location.state.background;
@@ -77,6 +85,7 @@ function App() {
               element={<OnlyAuth component={<ProfilePage />} />}
             />
             <Route path="/ingredients/:id" element={<IngridientDetails />} />
+            <Route path="/feed/:number" element={<OrderInfoDetails />} />
             <Route path="*" element={<NonFound404 />} />
           </Routes>
           {background && (
@@ -86,6 +95,14 @@ function App() {
                 element={
                   <Modal onClose={handleModalClose}>
                     <IngridientDetails />
+                  </Modal>
+                }
+              />
+              <Route
+                path="/feed/:number"
+                element={
+                  <Modal onClose={handleModalClose}>
+                    <OrderInfoDetails />
                   </Modal>
                 }
               />
