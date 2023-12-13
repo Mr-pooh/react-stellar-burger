@@ -91,3 +91,13 @@ export const wsOpen = createAction("ORDERS_ALL_WS_OPEN");
 export const wsClose = createAction("ORDERS_ALL_WS_CLOSE");
 export const wsMessage = createAction("ORDERS_ALL_WS_MESSAGE");
 export const wsError = createAction("ORDERS_ALL_WS_ERROR");
+
+
+
+export const ORDERS_PROFILE_CONNECT = createAction("ORDERS_PROFILE_CONNECT");
+export const ORDERS_PROFILE_DISCONNECT = createAction("ORDERS_PROFILE_DISCONNECT");
+export const ORDERS_PROFILE_WS_CONNECTING = createAction("ORDERS_PROFILE_WS_CONNECTING");
+export const ORDERS_PROFILE_WS_OPEN = createAction("ORDERS_PROFILE_WS_OPEN");
+export const ORDERS_PROFILE_WS_CLOSE = createAction("ORDERS_PROFILE_WS_CLOSE");
+export const ORDERS_PROFILE_WS_MESSAGE = createAction("ORDERS_PROFILE_WS_MESSAGE");
+export const ORDERS_PROFILE_WS_ERROR = createAction("ORDERS_PROFILE_WS_ERROR");

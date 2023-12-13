@@ -14,6 +14,13 @@ import {
   wsMessage as OrdersAllWsMessage,
   wsError as OrdersAllWsError,
   wsConnecting as OrdersAllWsConnecting,
+  ORDERS_PROFILE_CONNECT,
+  ORDERS_PROFILE_DISCONNECT,
+  ORDERS_PROFILE_WS_CONNECTING,
+  ORDERS_PROFILE_WS_OPEN,
+  ORDERS_PROFILE_WS_CLOSE,
+  ORDERS_PROFILE_WS_MESSAGE,
+  ORDERS_PROFILE_WS_ERROR
 } from "./actions";
 import { socketMiddleware } from "./middleware/ordersMiddleware";
 
@@ -27,6 +34,16 @@ const OrdersAllMiddleware = socketMiddleware({
   onMessage: OrdersAllWsMessage,
 });
 
+const OrdersProfileMiddleware = socketMiddleware({
+  wsConnect: ORDERS_PROFILE_CONNECT ,
+  wsDisconnect: ORDERS_PROFILE_DISCONNECT,
+  wsConnecting: ORDERS_PROFILE_WS_CONNECTING,
+  onOpen: ORDERS_PROFILE_WS_OPEN,
+  onClose: ORDERS_PROFILE_WS_CLOSE,
+  onError: ORDERS_PROFILE_WS_ERROR,
+  onMessage: ORDERS_PROFILE_WS_MESSAGE,
+})
+
 export const store = configureStore({
   reducer: {
     initial: initialReducer,
@@ -37,6 +54,6 @@ export const store = configureStore({
     ordersAll: ordersAllReducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(OrdersAllMiddleware);
+    return getDefaultMiddleware().concat(OrdersAllMiddleware, OrdersProfileMiddleware);
   },
 });

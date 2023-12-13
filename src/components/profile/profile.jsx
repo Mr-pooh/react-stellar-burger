@@ -1,11 +1,13 @@
 import styles from "./profile.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import ProfileForm from "../formComponents/profileForm/profileForm";
 import { useDispatch } from "react-redux";
 import { logout } from "../../services/actions";
 
 function Profile() {
   const dispatch = useDispatch();
+
+  const location = useLocation();
 
   const onClick = () => {
     dispatch(logout());
@@ -24,6 +26,7 @@ function Profile() {
                 cursor: isActive && `default`,
               };
             }}
+            end
           >
             Профиль
           </NavLink>
@@ -35,6 +38,7 @@ function Profile() {
             style={({ isActive }) => {
               return {
                 color: isActive && `#F2F2F3`,
+                cursor: isActive && `default`,
               };
             }}
           >
@@ -55,7 +59,7 @@ function Profile() {
           В этом разделе вы можете изменить свои персональные данные
         </p>
       </ul>
-      <ProfileForm />
+      {location.pathname === "/profile" ? <ProfileForm /> : <Outlet />}
     </section>
   );
 }

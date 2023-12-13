@@ -24,11 +24,13 @@ export default function Orders() {
         return <OrderElement item={item} key={item._id} arrIngr={arr} />;
       });
     }
+    else {
+      return
+    }
   };
 
-  console.log(ordersFeed);
 
-  return (
+  return ( ordersFeed &&
     <section className={styles.orders}>
       <ul className={styles.table + " custom-scroll"}>{orderElement()}</ul>
     </section>

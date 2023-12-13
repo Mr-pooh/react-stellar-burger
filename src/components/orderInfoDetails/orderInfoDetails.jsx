@@ -5,7 +5,7 @@ import {
   getStoreModalIngredient,
   openModal,
 } from "../../services/modalIngredientSlice";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { getStoreInitial } from "../../services/initialSlice";
 import { getStoreAllOrders } from "../../services/ordersReducer";
@@ -14,6 +14,7 @@ import {
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import OrderList from "./orderList/orderList";
+import { getOrderNumber } from "../../utils/getOrderNumber";
 
 export default function OrderInfoDetails() {
   const { number } = useParams();
@@ -25,6 +26,7 @@ export default function OrderInfoDetails() {
   const { details } = useSelector(getStoreModalIngredient);
 
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const order = React.useCallback(() => {
     if (ordersFeed) {
@@ -32,15 +34,26 @@ export default function OrderInfoDetails() {
     }
   }, [number, ordersFeed]);
 
-  console.log(order());
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (ordersFeed) {
+    if (ordersFeed && order()) {
       dispatch(openModal(order()));
     }
-  }, [dispatch, ordersFeed, order]);
-
-  const location = useLocation();
+    if (!order()) {
+      getOrderNumber(number)
+        .then((res) => {
+          if (res.orders.length !== 0) {
+            dispatch(openModal(res.orders[0]));
+          } else {
+            navigate("/feed");
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  }, [dispatch, ordersFeed, order, number, navigate]);
 
   const background = location.state && location.state.background;
 
@@ -64,21 +77,38 @@ export default function OrderInfoDetails() {
     }
   };
 
-  const ingredient = () => {
+  const arr = () => {
     if (details.ingredients) {
-      let arr = [];
+      let array = [];
       details.ingredients.forEach((item) => {
         data.forEach((elem) => {
           if (elem._id === item) {
-            arr.push(elem);
+            array.push(elem);
           }
         });
       });
-      return new Set(arr)
+      return array;
     }
   };
 
-  console.log(ingredient());
+  const totalPrice = arr() && arr().reduce((a, b) => a + b.price, 0);
+
+  const ingredient = () => {
+    if (details.ingredients) {
+      const newSet = new Set(arr());
+      const arrIngr = Array.from(newSet);
+      return arrIngr.map((item) => {
+        const sum = 0;
+        const amount = arr().reduce((a, b) => {
+          if (b === item) {
+            a = a + 1;
+          }
+          return a;
+        }, sum);
+        return <OrderList key={item._id} item={item} amount={amount} />;
+      });
+    }
+  };
 
   return (
     <div
@@ -97,14 +127,16 @@ export default function OrderInfoDetails() {
       </div>
       <div className={styles.containerIngredients}>
         <h3 className={`text text_type_main-medium`}>Состав:</h3>
-        <ul className={styles.ingredientsArr}></ul>
+        <ul className={styles.ingredientsArr + ` custom-scroll`}>
+          {ingredient()}
+        </ul>
       </div>
       <div className={styles.info}>
         <p className={`text text_type_main-default text_color_inactive`}>
           <FormattedDate date={new Date(details.createdAt)} /> i-GMT+3
         </p>
-        <div>
-          <p></p>
+        <div className={styles.total}>
+          <p className={`text text_type_digits-default p-1`}>{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>

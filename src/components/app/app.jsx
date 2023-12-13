@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./app.module.css";
 import AppHeader from "../header/header";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   checkUserAuth,
   disconnect,
@@ -20,8 +20,10 @@ import ProfilePage from "../../pages/profile";
 import NonFound404 from "../../pages/notFound404";
 import { OnlyAuth, OnlyUnAuth } from "../../services/ProtectedRouteElement";
 import FeedPage from "../../pages/feed";
-import { ORDERS_ALL_SERVER_URL } from "../../utils/wsUtil";
+import { ORDERS_ALL_SERVER_URL, ORDERS_PROFILE_SERVER_URL } from "../../utils/wsUtil";
 import OrderInfoDetails from "../orderInfoDetails/orderInfoDetails";
+import { getStoreAllOrders } from "../../services/ordersReducer";
+import Orders from "../orders/orders";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,20 +35,39 @@ function App() {
 
   const location = useLocation();
 
+  const patternAll = React.useMemo(() => /^[/]feed|[/]\d+/, []);
+
+  
+  const patternPerson = React.useMemo(() => /^[/]profile[/]orders|[/]\d+/, []);
+
+  const { status } = useSelector(getStoreAllOrders);
+
   React.useEffect(() => {
     if (location.pathname !== "/reset-password") {
       localStorage.removeItem("resetPass");
     }
-    if(location.pathname === `/feed`){
-      dispatch(connect(ORDERS_ALL_SERVER_URL))
+    if (
+      location.pathname.match(patternAll) &&
+      status !== "ONLINE" &&
+      status !== "CONNECTING..."
+    ) {
+      dispatch(connect(ORDERS_ALL_SERVER_URL));
     }
-    if (location.pathname !== `/feed`) {
+    if (!location.pathname.match(patternAll) && status) {
       dispatch(disconnect(ORDERS_ALL_SERVER_URL));
     }
-  }, [dispatch, location]);
+  }, [dispatch, location, status, patternAll]);
 
-  
-  console.log(location)
+  React.useEffect(()=> {
+    if(location.pathname.match(patternPerson) &&
+    status !== "ONLINE" &&
+    status !== "CONNECTING..."){
+      dispatch(connect(ORDERS_PROFILE_SERVER_URL))
+    }
+    if(!location.pathname.match(patternPerson) && status){
+        dispatch(disconnect(ORDERS_PROFILE_SERVER_URL))
+      }
+  }, [dispatch, patternPerson, status, location])
 
   const navigate = useNavigate();
   const background = location.state && location.state.background;
@@ -63,7 +84,6 @@ function App() {
         <main className={styles.main}>
           <Routes location={background || location}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/feed" element={<FeedPage />} />
             <Route
               path="/login"
               element={<OnlyUnAuth component={<LoginPage />} />}
@@ -80,10 +100,16 @@ function App() {
               path="/reset-password"
               element={<OnlyUnAuth component={<ResetPasswordPage />} />}
             />
+            <Route path="/feed" element={<FeedPage />} />
             <Route
               path="/profile"
               element={<OnlyAuth component={<ProfilePage />} />}
-            />
+            >
+              <Route
+                path="/profile/orders"
+                element={<OnlyAuth component={<Orders />} />}
+              />
+            </Route>
             <Route path="/ingredients/:id" element={<IngridientDetails />} />
             <Route path="/feed/:number" element={<OrderInfoDetails />} />
             <Route path="*" element={<NonFound404 />} />
