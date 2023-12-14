@@ -7,6 +7,8 @@ import {
   disconnect,
   connect,
   initialIngridient,
+  connectProfile,
+  disconnectProfile,
 } from "../../services/actions";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import HomePage from "../../pages/home";
@@ -20,10 +22,14 @@ import ProfilePage from "../../pages/profile";
 import NonFound404 from "../../pages/notFound404";
 import { OnlyAuth, OnlyUnAuth } from "../../services/ProtectedRouteElement";
 import FeedPage from "../../pages/feed";
-import { ORDERS_ALL_SERVER_URL, ORDERS_PROFILE_SERVER_URL } from "../../utils/wsUtil";
+import {
+  ORDERS_ALL_SERVER_URL,
+  ORDERS_PROFILE_SERVER_URL,
+} from "../../utils/wsUtil";
 import OrderInfoDetails from "../orderInfoDetails/orderInfoDetails";
 import { getStoreAllOrders } from "../../services/ordersReducer";
 import Orders from "../orders/orders";
+import { getStoreProfileOrders } from "../../services/ordersProfileReducer";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,14 +39,19 @@ function App() {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
+  const accessToken =
+    localStorage.getItem("accessToken") &&
+    localStorage.getItem("accessToken").replace(/Bearer /, "");
+
   const location = useLocation();
 
-  const patternAll = React.useMemo(() => /^[/]feed|[/]\d+/, []);
+  const patternAll = React.useMemo(() => /^[/]feed/, []);
 
-  
-  const patternPerson = React.useMemo(() => /^[/]profile[/]orders|[/]\d+/, []);
+  const patternPerson = React.useMemo(() => /^[/]profile[/]orders/, []);
 
   const { status } = useSelector(getStoreAllOrders);
+
+  const { statusProfile } = useSelector(getStoreProfileOrders);
 
   React.useEffect(() => {
     if (location.pathname !== "/reset-password") {
@@ -54,20 +65,29 @@ function App() {
       dispatch(connect(ORDERS_ALL_SERVER_URL));
     }
     if (!location.pathname.match(patternAll) && status) {
-      dispatch(disconnect(ORDERS_ALL_SERVER_URL));
+      dispatch(disconnect());
     }
-  }, [dispatch, location, status, patternAll]);
-
-  React.useEffect(()=> {
-    if(location.pathname.match(patternPerson) &&
-    status !== "ONLINE" &&
-    status !== "CONNECTING..."){
-      dispatch(connect(ORDERS_PROFILE_SERVER_URL))
+    if (
+      location.pathname.match(patternPerson) &&
+      statusProfile !== "ONLINE" &&
+      statusProfile !== "CONNECTING..."
+    ) {
+      dispatch(
+        connectProfile(`${ORDERS_PROFILE_SERVER_URL}?token=${accessToken}`)
+      );
     }
-    if(!location.pathname.match(patternPerson) && status){
-        dispatch(disconnect(ORDERS_PROFILE_SERVER_URL))
-      }
-  }, [dispatch, patternPerson, status, location])
+    if (!location.pathname.match(patternPerson) && statusProfile) {
+      dispatch(disconnectProfile());
+    }
+  }, [
+    dispatch,
+    location,
+    status,
+    patternAll,
+    accessToken,
+    patternPerson,
+    statusProfile,
+  ]);
 
   const navigate = useNavigate();
   const background = location.state && location.state.background;
@@ -112,6 +132,10 @@ function App() {
             </Route>
             <Route path="/ingredients/:id" element={<IngridientDetails />} />
             <Route path="/feed/:number" element={<OrderInfoDetails />} />
+            <Route
+              path="/profile/orders/:number"
+              element={<OnlyAuth component={<OrderInfoDetails />} />}
+            />
             <Route path="*" element={<NonFound404 />} />
           </Routes>
           {background && (
@@ -126,6 +150,14 @@ function App() {
               />
               <Route
                 path="/feed/:number"
+                element={
+                  <Modal onClose={handleModalClose}>
+                    <OrderInfoDetails />
+                  </Modal>
+                }
+              />
+              <Route
+                path="/profile/orders/:number"
                 element={
                   <Modal onClose={handleModalClose}>
                     <OrderInfoDetails />

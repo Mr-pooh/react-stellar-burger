@@ -71,7 +71,7 @@ export default function OrderElement({ item, arrIngr }) {
 
   return (
     <Link
-      to={`/feed/${item.number}`}
+      to={location.pathname === '/feed' ? `/feed/${item.number}` : `/profile/orders/${item.number}`}
       state={{ background: location }}
       className={styles.link}
     >

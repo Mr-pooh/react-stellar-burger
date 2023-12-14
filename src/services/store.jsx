@@ -14,15 +14,16 @@ import {
   wsMessage as OrdersAllWsMessage,
   wsError as OrdersAllWsError,
   wsConnecting as OrdersAllWsConnecting,
-  ORDERS_PROFILE_CONNECT,
-  ORDERS_PROFILE_DISCONNECT,
-  ORDERS_PROFILE_WS_CONNECTING,
-  ORDERS_PROFILE_WS_OPEN,
-  ORDERS_PROFILE_WS_CLOSE,
-  ORDERS_PROFILE_WS_MESSAGE,
-  ORDERS_PROFILE_WS_ERROR
+  connectProfile,
+  disconnectProfile,
+  wsConnectingProfile,
+  wsOpenProfile,
+  wsCloseProfile,
+  wsMessageProfile,
+  wsErrorProfile
 } from "./actions";
 import { socketMiddleware } from "./middleware/ordersMiddleware";
+import { ordersProfileReducer } from "./ordersProfileReducer";
 
 const OrdersAllMiddleware = socketMiddleware({
   wsConnect: OrdersAllWsConnect,
@@ -35,13 +36,13 @@ const OrdersAllMiddleware = socketMiddleware({
 });
 
 const OrdersProfileMiddleware = socketMiddleware({
-  wsConnect: ORDERS_PROFILE_CONNECT ,
-  wsDisconnect: ORDERS_PROFILE_DISCONNECT,
-  wsConnecting: ORDERS_PROFILE_WS_CONNECTING,
-  onOpen: ORDERS_PROFILE_WS_OPEN,
-  onClose: ORDERS_PROFILE_WS_CLOSE,
-  onError: ORDERS_PROFILE_WS_ERROR,
-  onMessage: ORDERS_PROFILE_WS_MESSAGE,
+  wsConnect: connectProfile ,
+  wsDisconnect: disconnectProfile,
+  wsConnecting: wsConnectingProfile,
+  onOpen: wsOpenProfile,
+  onClose: wsCloseProfile,
+  onError: wsErrorProfile,
+  onMessage: wsMessageProfile,
 })
 
 export const store = configureStore({
@@ -52,6 +53,7 @@ export const store = configureStore({
     orderDetails: orderDetailsReducer,
     user: userReducer,
     ordersAll: ordersAllReducer,
+    ordersProfile: ordersProfileReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(OrdersAllMiddleware, OrdersProfileMiddleware);

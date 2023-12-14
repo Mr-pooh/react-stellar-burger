@@ -15,6 +15,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import OrderList from "./orderList/orderList";
 import { getOrderNumber } from "../../utils/getOrderNumber";
+import { getStoreProfileOrders } from "../../services/ordersProfileReducer";
 
 export default function OrderInfoDetails() {
   const { number } = useParams();
@@ -23,21 +24,26 @@ export default function OrderInfoDetails() {
 
   const { ordersFeed } = useSelector(getStoreAllOrders);
 
+  const {ordersProfileFeed} = useSelector(getStoreProfileOrders)
+
   const { details } = useSelector(getStoreModalIngredient);
 
   const dispatch = useDispatch();
   const location = useLocation();
 
   const order = React.useCallback(() => {
-    if (ordersFeed) {
+    if (ordersFeed && !ordersProfileFeed) {
       return ordersFeed.orders.find((item) => `${item.number}` === number);
     }
-  }, [number, ordersFeed]);
+    if(ordersProfileFeed && !ordersFeed){
+      return ordersProfileFeed.orders.find((item) => `${item.number}` === number);
+    }
+  }, [number, ordersFeed, ordersProfileFeed]);
 
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (ordersFeed && order()) {
+    if (order()) {
       dispatch(openModal(order()));
     }
     if (!order()) {

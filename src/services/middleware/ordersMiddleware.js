@@ -1,3 +1,5 @@
+import { refreshToken } from "../../utils/auth";
+
 export const socketMiddleware = (wsActions) => {
   return (store) => {
     let socket = null;
@@ -32,9 +34,16 @@ export const socketMiddleware = (wsActions) => {
 
         socket.onmessage = (event) => {
           const { data } = event;
+          
           const parsedData = JSON.parse(data);
-
-          dispatch(onMessage(parsedData));
+          if(parsedData.message === 'Invalid or missing token'){
+            refreshToken().then(()=>{
+              dispatch(onMessage(parsedData));
+            })
+          }
+          else {
+            dispatch(onMessage(parsedData));
+          }
         };
 
         socket.onclose = (event) => {
