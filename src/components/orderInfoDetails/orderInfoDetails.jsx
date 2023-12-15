@@ -24,7 +24,7 @@ export default function OrderInfoDetails() {
 
   const { ordersFeed } = useSelector(getStoreAllOrders);
 
-  const {ordersProfileFeed} = useSelector(getStoreProfileOrders)
+  const { ordersProfileFeed } = useSelector(getStoreProfileOrders);
 
   const { details } = useSelector(getStoreModalIngredient);
 
@@ -35,8 +35,10 @@ export default function OrderInfoDetails() {
     if (ordersFeed && !ordersProfileFeed) {
       return ordersFeed.orders.find((item) => `${item.number}` === number);
     }
-    if(ordersProfileFeed && !ordersFeed){
-      return ordersProfileFeed.orders.find((item) => `${item.number}` === number);
+    if (ordersProfileFeed && !ordersFeed) {
+      return ordersProfileFeed.orders.find(
+        (item) => `${item.number}` === number
+      );
     }
   }, [number, ordersFeed, ordersProfileFeed]);
 

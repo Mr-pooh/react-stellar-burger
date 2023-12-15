@@ -159,9 +159,13 @@ function App() {
               <Route
                 path="/profile/orders/:number"
                 element={
-                  <Modal onClose={handleModalClose}>
-                    <OrderInfoDetails />
-                  </Modal>
+                  <OnlyAuth
+                    component={
+                      <Modal onClose={handleModalClose}>
+                        <OrderInfoDetails />
+                      </Modal>
+                    }
+                  />
                 }
               />
             </Routes>

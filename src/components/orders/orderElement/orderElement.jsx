@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "../orders.module.css";
 import {
@@ -13,7 +13,6 @@ export default function OrderElement({ item, arrIngr }) {
 
   const dispatch = useDispatch();
 
-
   const open = () => {
     dispatch(openModal(item));
   };
@@ -27,6 +26,26 @@ export default function OrderElement({ item, arrIngr }) {
       document.removeEventListener("click", onClose);
     };
   });
+
+  const status = () => {
+    if (item.status === "done") {
+      return (
+        <p className={styles.done + ` text text_type_main-small`}>Выполнен</p>
+      );
+    }
+    if (item.status === "pending") {
+      return (
+        <p className={styles.pending + ` text text_type_main-small`}>
+          В работе
+        </p>
+      );
+    }
+    if (item.status === "created") {
+      return (
+        <p className={styles.created + ` text text_type_main-small`}>Создан</p>
+      );
+    }
+  };
 
   const arrImg = () => {
     return arrIngr.map((elem, i) => {
@@ -71,7 +90,11 @@ export default function OrderElement({ item, arrIngr }) {
 
   return (
     <Link
-      to={location.pathname === '/feed' ? `/feed/${item.number}` : `/profile/orders/${item.number}`}
+      to={
+        location.pathname === "/feed"
+          ? `/feed/${item.number}`
+          : `/profile/orders/${item.number}`
+      }
       state={{ background: location }}
       className={styles.link}
     >
@@ -82,9 +105,19 @@ export default function OrderElement({ item, arrIngr }) {
             <FormattedDate date={new Date(item.createdAt)} /> i-GMT+3
           </p>
         </div>
-        <h1 className={styles.name + ` text text_type_main-medium`}>
-          {item.name}
-        </h1>
+        {location.pathname === "/feed" ? (
+          <h1 className={styles.name + ` text text_type_main-medium`}>
+            {item.name}
+          </h1>
+        ) : (
+          <div className={styles.containerHeader}>
+            <h1 className={styles.name + ` text text_type_main-medium`}>
+              {item.name}
+            </h1>
+            {status()}
+          </div>
+        )}
+
         <div className={styles.ingredientContainer}>
           <ul className={styles.imageContainer}>{arrImg()}</ul>
           <div className={styles.price}>

@@ -1,6 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { WebsocketStatus } from "../utils/wsUtil";
-import { wsCloseProfile, wsConnectingProfile, wsErrorProfile, wsMessageProfile, wsOpenProfile } from "./actions";
+import {
+  wsCloseProfile,
+  wsConnectingProfile,
+  wsErrorProfile,
+  wsMessageProfile,
+  wsOpenProfile,
+} from "./actions";
 
 const initialState = {
   status: WebsocketStatus.OFFLINE,

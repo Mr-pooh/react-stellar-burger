@@ -20,7 +20,7 @@ import {
   wsOpenProfile,
   wsCloseProfile,
   wsMessageProfile,
-  wsErrorProfile
+  wsErrorProfile,
 } from "./actions";
 import { socketMiddleware } from "./middleware/ordersMiddleware";
 import { ordersProfileReducer } from "./ordersProfileReducer";
@@ -36,14 +36,14 @@ const OrdersAllMiddleware = socketMiddleware({
 });
 
 const OrdersProfileMiddleware = socketMiddleware({
-  wsConnect: connectProfile ,
+  wsConnect: connectProfile,
   wsDisconnect: disconnectProfile,
   wsConnecting: wsConnectingProfile,
   onOpen: wsOpenProfile,
   onClose: wsCloseProfile,
   onError: wsErrorProfile,
   onMessage: wsMessageProfile,
-})
+});
 
 export const store = configureStore({
   reducer: {
@@ -56,6 +56,9 @@ export const store = configureStore({
     ordersProfile: ordersProfileReducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(OrdersAllMiddleware, OrdersProfileMiddleware);
+    return getDefaultMiddleware().concat(
+      OrdersAllMiddleware,
+      OrdersProfileMiddleware
+    );
   },
 });

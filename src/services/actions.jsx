@@ -100,10 +100,3 @@ export const wsCloseProfile = createAction("ORDERS_PROFILE_WS_CLOSE");
 export const wsMessageProfile = createAction("ORDERS_PROFILE_WS_MESSAGE");
 export const wsErrorProfile = createAction("ORDERS_PROFILE_WS_ERROR");
 
-
-export const connectProfileWs = createAsyncThunk(
-  "ordersProfile/connect",
-  async (url) => {
-    return await fetchWithRefresh({url: connectProfile(url)})
-  }
-)

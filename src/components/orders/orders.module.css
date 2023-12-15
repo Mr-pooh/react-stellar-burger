@@ -107,3 +107,29 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+.ordersProfile {
+  margin-top: 40px;
+  max-width: 844px;
+  max-height: 916px;
+  background: var(--interface-bg, #131316);
+}
+
+.containerHeader {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 8px;
+}
+
+.done {
+  color: var(--interface-success, #0CC)
+}
+
+.pending {
+  color: var(--text-primary-light-standart-text, #F2F2F3);
+}
+
+.created {
+  color: var(--text-primary-light-standart-text, #F2F2F3);
+}

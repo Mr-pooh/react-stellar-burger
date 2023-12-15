@@ -7,9 +7,15 @@ export default function OrderList({ item, amount }) {
     <li className={styles.component}>
       <div className={styles.componentContain}>
         <div className={styles.imageArr}>
-          <img className={styles.imageIngr} src={item.image_mobile} alt={item.name} />
+          <img
+            className={styles.imageIngr}
+            src={item.image_mobile}
+            alt={item.name}
+          />
         </div>
-        <h2 className={styles.nameIngr + ` text text_type_main-small`}>{item.name}</h2>
+        <h2 className={styles.nameIngr + ` text text_type_main-small`}>
+          {item.name}
+        </h2>
       </div>
       <div className={styles.containPrice}>
         <p className={`text text_type_digits-default p-1`}>

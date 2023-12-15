@@ -10,14 +10,14 @@ import { useLocation } from "react-router-dom";
 export default function Orders() {
   const { ordersFeed } = useSelector(getStoreAllOrders);
 
-  const { ordersProfileFeed } = useSelector(getStoreProfileOrders)
+  const { ordersProfileFeed } = useSelector(getStoreProfileOrders);
 
   const { data } = useSelector(getStoreInitial);
 
-  const {pathname} = useLocation()
+  const { pathname } = useLocation();
 
   const orderElement = () => {
-    if (ordersFeed && pathname === '/feed') {
+    if (ordersFeed && pathname === "/feed") {
       return ordersFeed.orders.map((item) => {
         let arr = [];
         item.ingredients.forEach((elem) => {
@@ -30,8 +30,8 @@ export default function Orders() {
         return <OrderElement item={item} key={item._id} arrIngr={arr} />;
       });
     }
-    if(ordersProfileFeed && pathname === '/profile/orders') {
-      return ordersProfileFeed.orders.map((item) => {
+    if (ordersProfileFeed && pathname === "/profile/orders") {
+      const arrProfile = ordersProfileFeed.orders.map((item) => {
         let arr = [];
         item.ingredients.forEach((elem) => {
           data.forEach((element) => {
@@ -42,16 +42,18 @@ export default function Orders() {
         });
         return <OrderElement item={item} key={item._id} arrIngr={arr} />;
       });
-    }
-    else {
-      return
+      return arrProfile.reverse();
+    } else {
+      return <div>Загрузка...</div>;
     }
   };
 
-  console.log(orderElement())
-
   return (
-    <section className={styles.orders}>
+    <section
+      className={
+        pathname === "/profile/orders" ? styles.ordersProfile : styles.orders
+      }
+    >
       <ul className={styles.table + " custom-scroll"}>{orderElement()}</ul>
     </section>
   );
