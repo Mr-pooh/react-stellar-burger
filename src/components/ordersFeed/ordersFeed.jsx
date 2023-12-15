@@ -9,24 +9,21 @@ import { connect } from "../../services/actions";
 import { getStoreAllOrders } from "../../services/ordersReducer";
 
 export default function OrdersFeed() {
-
   const dispatch = useDispatch();
 
   const location = useLocation();
 
   const { status } = useSelector(getStoreAllOrders);
 
-
-
-  React.useEffect(()=>{
+  React.useEffect(() => {
     if (
-      location.pathname === '/feed' &&
+      location.pathname === "/feed" &&
       status !== "ONLINE" &&
       status !== "CONNECTING..."
     ) {
       dispatch(connect(ORDERS_ALL_SERVER_URL));
     }
-  }, [dispatch, location, status])
+  }, [dispatch, location, status]);
 
   return (
     <section className={styles.section}>

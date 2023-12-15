@@ -47,20 +47,16 @@ function App() {
     if (location.pathname !== "/reset-password") {
       localStorage.removeItem("resetPass");
     }
-    if (!location.pathname.match(patternAll) && status !== 'OFFLINE') {
+    if (!location.pathname.match(patternAll) && status !== "OFFLINE") {
       dispatch(disconnect());
     }
-    if (!location.pathname.match(patternPerson) && statusProfile !== 'OFFLINE') {
+    if (
+      !location.pathname.match(patternPerson) &&
+      statusProfile !== "OFFLINE"
+    ) {
       dispatch(disconnectProfile());
     }
-  }, [
-    dispatch,
-    location,
-    status,
-    patternAll,
-    patternPerson,
-    statusProfile,
-  ]);
+  }, [dispatch, location, status, patternAll, patternPerson, statusProfile]);
 
   const navigate = useNavigate();
   const background = location.state && location.state.background;

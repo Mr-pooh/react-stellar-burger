@@ -10,7 +10,6 @@ import { getStoreProfileOrders } from "../../services/ordersProfileReducer";
 function Profile() {
   const dispatch = useDispatch();
 
-  
   const { statusProfile } = useSelector(getStoreProfileOrders);
 
   const location = useLocation();
@@ -18,15 +17,14 @@ function Profile() {
   const onClick = () => {
     dispatch(logout());
   };
-  
+
   const accessToken =
     localStorage.getItem("accessToken") &&
     localStorage.getItem("accessToken").replace(/Bearer /, "");
 
-
-  React.useEffect(()=>{
+  React.useEffect(() => {
     if (
-      location.pathname === '/profile/orders' &&
+      location.pathname === "/profile/orders" &&
       statusProfile !== "ONLINE" &&
       statusProfile !== "CONNECTING..."
     ) {
@@ -34,7 +32,7 @@ function Profile() {
         connectProfile(`${ORDERS_PROFILE_SERVER_URL}?token=${accessToken}`)
       );
     }
-  }, [location, accessToken, dispatch, statusProfile])
+  }, [location, accessToken, dispatch, statusProfile]);
 
   return (
     <section className={styles.container}>

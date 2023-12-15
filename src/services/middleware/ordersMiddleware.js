@@ -37,13 +37,15 @@ export const socketMiddleware = (wsActions) => {
 
           const parsedData = JSON.parse(data);
           if (parsedData.message === "Invalid or missing token") {
-            refreshToken().then((res) => {
-              localStorage.setItem("refreshToken", res.refreshToken);
-              localStorage.setItem("accessToken", res.accessToken);
-            }).then(()=>{
-              socket = new WebSocket(action.payload);
-              dispatch(wsConnecting());
-            })
+            refreshToken()
+              .then((res) => {
+                localStorage.setItem("refreshToken", res.refreshToken);
+                localStorage.setItem("accessToken", res.accessToken);
+              })
+              .then(() => {
+                socket = new WebSocket(action.payload);
+                dispatch(wsConnecting());
+              });
           } else {
             dispatch(onMessage(parsedData));
           }
