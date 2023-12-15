@@ -27,7 +27,7 @@ export default function OrderElement({ item, arrIngr }) {
     };
   });
 
-  const status = () => {
+  const status = React.useMemo(() => {
     if (item.status === "done") {
       return (
         <p className={styles.done + ` text text_type_main-small`}>Выполнен</p>
@@ -45,7 +45,7 @@ export default function OrderElement({ item, arrIngr }) {
         <p className={styles.created + ` text text_type_main-small`}>Создан</p>
       );
     }
-  };
+  }, [item.status]);
 
   const arrImg = () => {
     return arrIngr.map((elem, i) => {
@@ -114,7 +114,7 @@ export default function OrderElement({ item, arrIngr }) {
             <h1 className={styles.name + ` text text_type_main-medium`}>
               {item.name}
             </h1>
-            {status()}
+            {status}
           </div>
         )}
 

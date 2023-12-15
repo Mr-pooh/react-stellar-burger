@@ -65,7 +65,7 @@ export default function OrderInfoDetails() {
 
   const background = location.state && location.state.background;
 
-  const status = () => {
+  const status = React.useMemo(() => {
     if (details.status === "done") {
       return (
         <p className={styles.done + ` text text_type_main-small`}>Выполнен</p>
@@ -83,9 +83,9 @@ export default function OrderInfoDetails() {
         <p className={styles.created + ` text text_type_main-small`}>Создан</p>
       );
     }
-  };
+  }, [details]);
 
-  const arr = () => {
+  const arr = React.useCallback(() => {
     if (details.ingredients) {
       let array = [];
       details.ingredients.forEach((item) => {
@@ -97,11 +97,11 @@ export default function OrderInfoDetails() {
       });
       return array;
     }
-  };
+  }, [details, data]);
 
-  const totalPrice = arr() && arr().reduce((a, b) => a + b.price, 0);
+  const totalPrice = React.useMemo(()=> arr() && arr().reduce((a, b) => a + b.price, 0), [arr]);
 
-  const ingredient = () => {
+  const ingredient = React.useCallback(() => {
     if (details.ingredients) {
       const newSet = new Set(arr());
       const arrIngr = Array.from(newSet);
@@ -116,7 +116,7 @@ export default function OrderInfoDetails() {
         return <OrderList key={item._id} item={item} amount={amount} />;
       });
     }
-  };
+  }, [arr, details]);
 
   return (
     <div
@@ -131,7 +131,7 @@ export default function OrderInfoDetails() {
       </h2>
       <div className={styles.nameContainer}>
         <h1 className={`text text_type_main-medium`}>{details.name}</h1>
-        {status()}
+        {status}
       </div>
       <div className={styles.containerIngredients}>
         <h3 className={`text text_type_main-medium`}>Состав:</h3>

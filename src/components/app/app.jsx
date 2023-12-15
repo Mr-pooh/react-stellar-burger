@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   checkUserAuth,
   disconnect,
-  connect,
   initialIngridient,
-  connectProfile,
   disconnectProfile,
 } from "../../services/actions";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
@@ -22,10 +20,6 @@ import ProfilePage from "../../pages/profile";
 import NonFound404 from "../../pages/notFound404";
 import { OnlyAuth, OnlyUnAuth } from "../../services/ProtectedRouteElement";
 import FeedPage from "../../pages/feed";
-import {
-  ORDERS_ALL_SERVER_URL,
-  ORDERS_PROFILE_SERVER_URL,
-} from "../../utils/wsUtil";
 import OrderInfoDetails from "../orderInfoDetails/orderInfoDetails";
 import { getStoreAllOrders } from "../../services/ordersReducer";
 import Orders from "../orders/orders";
@@ -38,10 +32,6 @@ function App() {
     dispatch(initialIngridient());
     dispatch(checkUserAuth());
   }, [dispatch]);
-
-  const accessToken =
-    localStorage.getItem("accessToken") &&
-    localStorage.getItem("accessToken").replace(/Bearer /, "");
 
   const location = useLocation();
 
@@ -57,26 +47,10 @@ function App() {
     if (location.pathname !== "/reset-password") {
       localStorage.removeItem("resetPass");
     }
-    if (
-      location.pathname.match(patternAll) &&
-      status !== "ONLINE" &&
-      status !== "CONNECTING..."
-    ) {
-      dispatch(connect(ORDERS_ALL_SERVER_URL));
-    }
-    if (!location.pathname.match(patternAll) && status) {
+    if (!location.pathname.match(patternAll) && status !== 'OFFLINE') {
       dispatch(disconnect());
     }
-    if (
-      location.pathname.match(patternPerson) &&
-      statusProfile !== "ONLINE" &&
-      statusProfile !== "CONNECTING..."
-    ) {
-      dispatch(
-        connectProfile(`${ORDERS_PROFILE_SERVER_URL}?token=${accessToken}`)
-      );
-    }
-    if (!location.pathname.match(patternPerson) && statusProfile) {
+    if (!location.pathname.match(patternPerson) && statusProfile !== 'OFFLINE') {
       dispatch(disconnectProfile());
     }
   }, [
@@ -84,7 +58,6 @@ function App() {
     location,
     status,
     patternAll,
-    accessToken,
     patternPerson,
     statusProfile,
   ]);

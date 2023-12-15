@@ -1,3 +1,5 @@
+import { refreshToken } from "../../utils/auth";
+
 export const socketMiddleware = (wsActions) => {
   return (store) => {
     let socket = null;
@@ -34,9 +36,14 @@ export const socketMiddleware = (wsActions) => {
           const { data } = event;
 
           const parsedData = JSON.parse(data);
-          if (parsedData.message === "Invalid or missing token") { 
+          if (parsedData.message === "Invalid or missing token") {
+            refreshToken().then((res) => {
+              localStorage.setItem("refreshToken", res.refreshToken);
+              localStorage.setItem("accessToken", res.accessToken);
+            }).then(()=>{
               socket = new WebSocket(action.payload);
               dispatch(wsConnecting());
+            })
           } else {
             dispatch(onMessage(parsedData));
           }
@@ -47,7 +54,7 @@ export const socketMiddleware = (wsActions) => {
         };
 
         if (wsSendMessage && type === wsSendMessage.type) {
-          socket.send(JSON.stringify(action.payload));
+          setTimeout(socket.send(JSON.stringify(action.payload), 1000));
         }
 
         if (wsDisconnect.type === type) {

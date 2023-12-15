@@ -1,17 +1,40 @@
 import styles from "./profile.module.css";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import ProfileForm from "../formComponents/profileForm/profileForm";
-import { useDispatch } from "react-redux";
-import { logout } from "../../services/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { connectProfile, logout } from "../../services/actions";
+import React from "react";
+import { ORDERS_PROFILE_SERVER_URL } from "../../utils/wsUtil";
+import { getStoreProfileOrders } from "../../services/ordersProfileReducer";
 
 function Profile() {
   const dispatch = useDispatch();
+
+  
+  const { statusProfile } = useSelector(getStoreProfileOrders);
 
   const location = useLocation();
 
   const onClick = () => {
     dispatch(logout());
   };
+  
+  const accessToken =
+    localStorage.getItem("accessToken") &&
+    localStorage.getItem("accessToken").replace(/Bearer /, "");
+
+
+  React.useEffect(()=>{
+    if (
+      location.pathname === '/profile/orders' &&
+      statusProfile !== "ONLINE" &&
+      statusProfile !== "CONNECTING..."
+    ) {
+      dispatch(
+        connectProfile(`${ORDERS_PROFILE_SERVER_URL}?token=${accessToken}`)
+      );
+    }
+  }, [location, accessToken, dispatch, statusProfile])
 
   return (
     <section className={styles.container}>
