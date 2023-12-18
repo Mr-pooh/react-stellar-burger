@@ -1,8 +1,13 @@
 import React from "react";
 import styles from "./app.module.css";
 import AppHeader from "../header/header";
-import { useDispatch } from "react-redux";
-import { checkUserAuth, initialIngridient } from "../../services/actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  checkUserAuth,
+  disconnect,
+  initialIngridient,
+  disconnectProfile,
+} from "../../services/actions";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import HomePage from "../../pages/home";
 import IngridientDetails from "../ingredientDetails/ingridientDetails";
@@ -14,6 +19,11 @@ import ResetPasswordPage from "../../pages/reset-password";
 import ProfilePage from "../../pages/profile";
 import NonFound404 from "../../pages/notFound404";
 import { OnlyAuth, OnlyUnAuth } from "../../services/ProtectedRouteElement";
+import FeedPage from "../../pages/feed";
+import OrderInfoDetails from "../orderInfoDetails/orderInfoDetails";
+import { getStoreAllOrders } from "../../services/ordersReducer";
+import Orders from "../orders/orders";
+import { getStoreProfileOrders } from "../../services/ordersProfileReducer";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,11 +35,28 @@ function App() {
 
   const location = useLocation();
 
+  const patternAll = React.useMemo(() => /^[/]feed/, []);
+
+  const patternPerson = React.useMemo(() => /^[/]profile[/]orders/, []);
+
+  const { status } = useSelector(getStoreAllOrders);
+
+  const { statusProfile } = useSelector(getStoreProfileOrders);
+
   React.useEffect(() => {
     if (location.pathname !== "/reset-password") {
       localStorage.removeItem("resetPass");
     }
-  }, [location]);
+    if (!location.pathname.match(patternAll) && status !== "OFFLINE") {
+      dispatch(disconnect());
+    }
+    if (
+      !location.pathname.match(patternPerson) &&
+      statusProfile !== "OFFLINE"
+    ) {
+      dispatch(disconnectProfile());
+    }
+  }, [dispatch, location, status, patternAll, patternPerson, statusProfile]);
 
   const navigate = useNavigate();
   const background = location.state && location.state.background;
@@ -62,11 +89,22 @@ function App() {
               path="/reset-password"
               element={<OnlyUnAuth component={<ResetPasswordPage />} />}
             />
+            <Route path="/feed" element={<FeedPage />} />
             <Route
               path="/profile"
               element={<OnlyAuth component={<ProfilePage />} />}
-            />
+            >
+              <Route
+                path="/profile/orders"
+                element={<OnlyAuth component={<Orders />} />}
+              />
+            </Route>
             <Route path="/ingredients/:id" element={<IngridientDetails />} />
+            <Route path="/feed/:number" element={<OrderInfoDetails />} />
+            <Route
+              path="/profile/orders/:number"
+              element={<OnlyAuth component={<OrderInfoDetails />} />}
+            />
             <Route path="*" element={<NonFound404 />} />
           </Routes>
           {background && (
@@ -77,6 +115,26 @@ function App() {
                   <Modal onClose={handleModalClose}>
                     <IngridientDetails />
                   </Modal>
+                }
+              />
+              <Route
+                path="/feed/:number"
+                element={
+                  <Modal onClose={handleModalClose}>
+                    <OrderInfoDetails />
+                  </Modal>
+                }
+              />
+              <Route
+                path="/profile/orders/:number"
+                element={
+                  <OnlyAuth
+                    component={
+                      <Modal onClose={handleModalClose}>
+                        <OrderInfoDetails />
+                      </Modal>
+                    }
+                  />
                 }
               />
             </Routes>

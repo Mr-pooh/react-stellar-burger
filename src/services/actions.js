@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { setUser, setAuthChecked } from "./userSlice";
 import { getIngridient } from "../utils/burger-api";
 import {
@@ -83,3 +83,20 @@ export const orderDetailsApi = createAsyncThunk(
     return await fetchWithRefresh(orderApi(ingredients));
   }
 );
+
+export const connect = createAction("ORDERS_ALL_CONNECT");
+export const disconnect = createAction("ORDERS_ALL_DISCONNECT");
+export const wsConnecting = createAction("ORDERS_ALL_WS_CONNECTING");
+export const wsOpen = createAction("ORDERS_ALL_WS_OPEN");
+export const wsClose = createAction("ORDERS_ALL_WS_CLOSE");
+export const wsMessage = createAction("ORDERS_ALL_WS_MESSAGE");
+export const wsError = createAction("ORDERS_ALL_WS_ERROR");
+
+export const connectProfile = createAction("ORDERS_PROFILE_CONNECT");
+export const disconnectProfile = createAction("ORDERS_PROFILE_DISCONNECT");
+export const wsConnectingProfile = createAction("ORDERS_PROFILE_WS_CONNECTING");
+export const wsOpenProfile = createAction("ORDERS_PROFILE_WS_OPEN");
+export const wsCloseProfile = createAction("ORDERS_PROFILE_WS_CLOSE");
+export const wsMessageProfile = createAction("ORDERS_PROFILE_WS_MESSAGE");
+export const wsErrorProfile = createAction("ORDERS_PROFILE_WS_ERROR");
+

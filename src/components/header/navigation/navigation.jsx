@@ -22,12 +22,12 @@ export default function Navigation() {
             nav={"/"}
           />
         </NavLink>
-        <NavLink to="/profile/orders" className={styles.link}>
+        <NavLink to="/feed" className={styles.link}>
           <HeaderLink
             text="Лента заказов"
             icon={<ListIcon type="primary" />}
             iconFalse={<ListIcon type="secondary" />}
-            nav={"/profile/orders"}
+            nav={"/feed"}
           />
         </NavLink>
       </div>
