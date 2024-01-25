@@ -1,7 +1,29 @@
 import { NORMA_API } from "./api";
 import { checkReponse } from "./checkResponse";
 
-export const getUser = ({ method, body }) => ({
+export type IBody=  {
+  email?: string,
+  token?: string,
+  password?: string,
+  name?: string,
+}
+
+export type TAuth = {
+  method?: string,
+  headers?: {
+    'Content-Type': string,
+    authorization?: string,
+  },
+  body?: any
+}
+
+export interface IRefreshToken {
+  readonly url: string,
+  options: any,
+  
+}
+
+export const getUser = ({ method, body }: TAuth) => ({
   url: `${NORMA_API}/auth/user`,
   options: {
     method: method,
@@ -13,7 +35,7 @@ export const getUser = ({ method, body }) => ({
   },
 });
 
-export function getForgotPassword(email) {
+export function getForgotPassword(email: IBody):Promise<object> {
   return fetch(`${NORMA_API}/password-reset`, {
     method: "POST",
     headers: {
@@ -25,7 +47,7 @@ export function getForgotPassword(email) {
   }).then(checkReponse);
 }
 
-export function getResetPassword({ password, token }) {
+export function getResetPassword({ password, token }: IBody):Promise<any> {
   return fetch(`${NORMA_API}/password-reset/reset`, {
     method: "POST",
     headers: {
@@ -38,7 +60,7 @@ export function getResetPassword({ password, token }) {
   }).then(checkReponse);
 }
 
-export function getLogin({ email, password }) {
+export function getLogin({ email, password }: IBody):Promise<any> {
   return fetch(`${NORMA_API}/auth/login`, {
     method: "POST",
     headers: {
@@ -51,7 +73,7 @@ export function getLogin({ email, password }) {
   }).then(checkReponse);
 }
 
-export function getLogout() {
+export function getLogout():Promise<any> {
   return fetch(`${NORMA_API}/auth/logout`, {
     method: "POST",
     headers: {
@@ -63,7 +85,7 @@ export function getLogout() {
   }).then(checkReponse);
 }
 
-export function getRegister({ name, email, password }) {
+export function getRegister({ name, email, password }: IBody): Promise<any> {
   return fetch(`${NORMA_API}/auth/register`, {
     method: "POST",
     headers: {
@@ -77,7 +99,7 @@ export function getRegister({ name, email, password }) {
   }).then(checkReponse);
 }
 
-export const refreshToken = () => {
+export const refreshToken = (): Promise<any> => {
   return fetch(`${NORMA_API}/auth/token`, {
     method: "POST",
     headers: {
@@ -89,11 +111,11 @@ export const refreshToken = () => {
   }).then(checkReponse);
 };
 
-export const fetchWithRefresh = async ({ url, options }) => {
+export const fetchWithRefresh = async ({ url, options }: IRefreshToken):Promise<any> => {
   try {
     const res = await fetch(url, options);
     return await checkReponse(res);
-  } catch (err) {
+  } catch (err: any | unknown) {
     console.log(err);
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken(); //обновляем токен

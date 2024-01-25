@@ -73,7 +73,3 @@ export default function IngridientsType({ item }) {
     </Link>
   );
 }
-
-IngridientsType.propTypes = {
-  item: ingredientPropType.isRequired,
-};

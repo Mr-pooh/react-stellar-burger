@@ -1,19 +1,37 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { login, logout, patchUser, register } from "./actions";
+
+interface ICounterState {
+  user: null | {
+    email: string,
+    password: string,
+  },
+  hasError: null| string | unknown,
+  isAuthChecked: boolean,
+  loading: boolean,
+}
+
+interface ILog{
+  email: string,
+  password: string,
+  name?: string
+}
+
+const initialState: ICounterState  = {
+  user: null,
+  hasError: null,
+  isAuthChecked: false,
+  loading: false,
+}
 
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    user: null,
-    hasError: null,
-    isAuthChecked: false,
-    loading: false,
-  },
+  initialState,
   reducers: {
-    setAuthChecked: (state, action) => {
+    setAuthChecked: (state, action: PayloadAction<boolean>) => {
       state.isAuthChecked = action.payload;
     },
-    setUser: (state, action) => {
+    setUser: (state, action: PayloadAction<ILog | null>) => {
       state.user = action.payload;
     },
   },
@@ -23,11 +41,11 @@ const userSlice = createSlice({
         state.hasError = null;
         state.loading = true;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state, action: PayloadAction<ILog | unknown | null>) => {
         state.hasError = action.payload;
         state.loading = false;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, action: PayloadAction<ILog>) => {
         state.user = action.payload;
         state.isAuthChecked = true;
       })
@@ -35,7 +53,7 @@ const userSlice = createSlice({
         state.hasError = null;
         state.loading = true;
       })
-      .addCase(logout.rejected, (state, action) => {
+      .addCase(logout.rejected, (state, action: PayloadAction<unknown>) => {
         state.hasError = action.payload;
         state.loading = false;
       })
@@ -46,14 +64,14 @@ const userSlice = createSlice({
         state.hasError = null;
         state.loading = true;
       })
-      .addCase(register.rejected, (state, action) => {
+      .addCase(register.rejected, (state, action: PayloadAction<unknown>) => {
         state.hasError = action.payload;
         state.loading = false;
       })
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(register.fulfilled, (state, action: PayloadAction<ILog>) => {
         state.user = action.payload;
       })
-      .addCase(patchUser.fulfilled, (state, action) => {
+      .addCase(patchUser.fulfilled, (state, action: PayloadAction<ILog>) => {
         state.user = action.payload;
       });
   },

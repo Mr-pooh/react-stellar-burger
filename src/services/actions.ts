@@ -2,6 +2,7 @@ import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { setUser, setAuthChecked } from "./userSlice";
 import { getIngridient } from "../utils/burger-api";
 import {
+  IBody,
   fetchWithRefresh,
   getLogin,
   getLogout,
@@ -9,10 +10,11 @@ import {
   getUser,
 } from "../utils/auth";
 import { orderApi } from "../utils/order-api";
+import { AppDispatch } from "./store";
 
 export const userAuth = () => {
-  return (dispatch) => {
-    return fetchWithRefresh(getUser({ method: "GET" })).then((res) => {
+  return (dispatch: AppDispatch) => {
+    return fetchWithRefresh(getUser({ method: "GET" })).then((res: any) => {
       dispatch(setUser(res.user));
     });
   };
@@ -20,20 +22,22 @@ export const userAuth = () => {
 
 export const patchUser = createAsyncThunk(
   "user/patchUser",
-  async ({ email, name }) => {
+  async ({ email, name }: IBody) => {
     const res = await fetchWithRefresh(
       getUser({
         method: "PATCH",
         body: JSON.stringify({ name: name, email: email }),
       })
     );
-    return res.user;
+    
+      return res.user;
+    
   }
 );
 
 export const login = createAsyncThunk(
   "user/login",
-  async ({ email, password }) => {
+  async ({ email, password }: IBody) => {
     const res = await getLogin({ email, password });
     localStorage.setItem("accessToken", res.accessToken);
     localStorage.setItem("refreshToken", res.refreshToken);
@@ -43,7 +47,7 @@ export const login = createAsyncThunk(
 
 export const register = createAsyncThunk(
   "user/register",
-  async ({ name, email, password }) => {
+  async ({ name, email, password }: IBody) => {
     const res = await getRegister({ name, email, password });
     localStorage.setItem("accessToken", res.accessToken);
     localStorage.setItem("refreshToken", res.refreshToken);
@@ -52,7 +56,7 @@ export const register = createAsyncThunk(
 );
 
 export const checkUserAuth = () => {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     if (localStorage.getItem("accessToken")) {
       dispatch(userAuth())
         .catch(() => {
@@ -79,7 +83,7 @@ export const initialIngridient = createAsyncThunk("initial/cart", async () => {
 
 export const orderDetailsApi = createAsyncThunk(
   "orderDetails/api",
-  async (ingredients) => {
+  async (ingredients: any) => {
     return await fetchWithRefresh(orderApi(ingredients));
   }
 );

@@ -1,6 +1,6 @@
 import { NORMA_API } from "./api";
 
-export const orderApi = (ingridients) => ({
+export const orderApi = (ingridients: Array<string>) => ({
   url: `${NORMA_API}/orders`,
   options: {
     method: "POST",
