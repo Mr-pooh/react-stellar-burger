@@ -16,7 +16,7 @@ import {
   ingredientSwitch,
   deleteIngredient,
   getStoreConstructor,
-} from "../../services/constructorBurgerSlice.js";
+} from "../../services/constructorBurgerSlice";
 import { getStoreOrderDetails } from "../../services/orderDetailsSlice";
 import { useNavigate } from "react-router-dom";
 import { orderDetailsApi } from "../../services/actions";

@@ -1,6 +1,7 @@
 import { NORMA_API } from "./api";
+import { TIngredient } from "./types";
 
-export const orderApi = (ingridients: Array<string>) => ({
+export const orderApi = (ingridients: Array<TIngredient>) => ({
   url: `${NORMA_API}/orders`,
   options: {
     method: "POST",

@@ -1,13 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+import { TIngredient } from "../utils/types";
+
+interface IInitialState {
+  active: boolean;
+  details: object | TIngredient;
+}
+
+const initialState: IInitialState = {
+  active: false,
+  details: {},
+};
 
 const modalIngredientSlice = createSlice({
   name: "modalIngredient",
-  initialState: {
-    active: false,
-    details: {},
-  },
+  initialState,
   reducers: {
-    openModal: (state, action) => {
+    openModal: (state, action: PayloadAction<TIngredient>) => {
       state.active = true;
       state.details = action.payload;
     },
@@ -18,7 +27,7 @@ const modalIngredientSlice = createSlice({
   },
 });
 
-export const getStoreModalIngredient = (store) => ({
+export const getStoreModalIngredient = (store: RootState) => ({
   active: store.modalIngredient.active,
   details: store.modalIngredient.details,
 });

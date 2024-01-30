@@ -1,5 +1,5 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { WebsocketStatus } from "../utils/wsUtil";
+import { PayloadAction, createReducer } from "@reduxjs/toolkit";
+import { TWebSock, WebsocketStatus } from "../utils/wsUtil";
 import {
   wsCloseProfile,
   wsConnectingProfile,
@@ -7,8 +7,16 @@ import {
   wsMessageProfile,
   wsOpenProfile,
 } from "./actions";
+import { TOrder } from "../utils/types";
+import { RootState } from "./store";
 
-const initialState = {
+interface IInitialState {
+  status: TWebSock | string;
+  ordersFeed: Array<TOrder> | null | undefined;
+  connectingError: string | unknown;
+}
+
+const initialState: IInitialState = {
   status: WebsocketStatus.OFFLINE,
   ordersFeed: null,
   connectingError: "",
@@ -26,15 +34,15 @@ export const ordersProfileReducer = createReducer(initialState, (builder) => {
     .addCase(wsCloseProfile, (state) => {
       state.status = WebsocketStatus.OFFLINE;
     })
-    .addCase(wsErrorProfile, (state, action) => {
+    .addCase(wsErrorProfile, (state, action: PayloadAction<string>) => {
       state.connectingError = action.payload;
     })
-    .addCase(wsMessageProfile, (state, action) => {
+    .addCase(wsMessageProfile, (state, action: PayloadAction<any>) => {
       state.ordersFeed = action.payload;
     });
 });
 
-export const getStoreProfileOrders = (store) => ({
+export const getStoreProfileOrders = (store: RootState) => ({
   statusProfile: store.ordersProfile.status,
   ordersProfileFeed: store.ordersProfile.ordersFeed,
   connectingErrorProfile: store.ordersProfile.connectingError,

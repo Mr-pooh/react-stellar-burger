@@ -11,6 +11,7 @@ import {
 } from "../utils/auth";
 import { orderApi } from "../utils/order-api";
 import { AppDispatch } from "./store";
+import { TOrders, TUser } from "../utils/types";
 
 export const userAuth = () => {
   return (dispatch: AppDispatch) => {
@@ -29,9 +30,8 @@ export const patchUser = createAsyncThunk(
         body: JSON.stringify({ name: name, email: email }),
       })
     );
-    
-      return res.user;
-    
+
+    return res.user;
   }
 );
 
@@ -88,19 +88,20 @@ export const orderDetailsApi = createAsyncThunk(
   }
 );
 
-export const connect = createAction("ORDERS_ALL_CONNECT");
+export const connect = createAction<string>("ORDERS_ALL_CONNECT");
 export const disconnect = createAction("ORDERS_ALL_DISCONNECT");
 export const wsConnecting = createAction("ORDERS_ALL_WS_CONNECTING");
 export const wsOpen = createAction("ORDERS_ALL_WS_OPEN");
 export const wsClose = createAction("ORDERS_ALL_WS_CLOSE");
-export const wsMessage = createAction("ORDERS_ALL_WS_MESSAGE");
-export const wsError = createAction("ORDERS_ALL_WS_ERROR");
+export const wsMessage = createAction<TOrders>("ORDERS_ALL_WS_MESSAGE");
+export const wsError = createAction<string>("ORDERS_ALL_WS_ERROR");
 
-export const connectProfile = createAction("ORDERS_PROFILE_CONNECT");
+export const connectProfile = createAction<string>("ORDERS_PROFILE_CONNECT");
 export const disconnectProfile = createAction("ORDERS_PROFILE_DISCONNECT");
 export const wsConnectingProfile = createAction("ORDERS_PROFILE_WS_CONNECTING");
 export const wsOpenProfile = createAction("ORDERS_PROFILE_WS_OPEN");
 export const wsCloseProfile = createAction("ORDERS_PROFILE_WS_CLOSE");
-export const wsMessageProfile = createAction("ORDERS_PROFILE_WS_MESSAGE");
-export const wsErrorProfile = createAction("ORDERS_PROFILE_WS_ERROR");
-
+export const wsMessageProfile = createAction<TOrders>(
+  "ORDERS_PROFILE_WS_MESSAGE"
+);
+export const wsErrorProfile = createAction<string>("ORDERS_PROFILE_WS_ERROR");

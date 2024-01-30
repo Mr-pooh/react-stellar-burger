@@ -7,7 +7,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal, openModal } from "../../../services/modalIngredientSlice";
 import { useDrag } from "react-dnd";
-import { ingredientPropType } from "../../../utils/prop-types";
 import { getStoreConstructor } from "../../../services/constructorBurgerSlice";
 import { useLocation, Link } from "react-router-dom";
 

@@ -1,8 +1,27 @@
+import {
+  ActionCreatorWithPayload,
+  ActionCreatorWithoutPayload,
+  Middleware,
+  MiddlewareAPI,
+} from "@reduxjs/toolkit";
 import { refreshToken } from "../../utils/auth";
+import { AppDispatch, RootState } from "../store";
+import { TOrders } from "../../utils/types";
 
-export const socketMiddleware = (wsActions) => {
-  return (store) => {
-    let socket = null;
+type TWsAction = {
+  wsConnect: ActionCreatorWithPayload<string>;
+  wsSendMessage?: ActionCreatorWithoutPayload;
+  onOpen: ActionCreatorWithoutPayload;
+  onClose: ActionCreatorWithoutPayload;
+  onError: ActionCreatorWithPayload<string>;
+  onMessage: ActionCreatorWithPayload<TOrders>;
+  wsConnecting: ActionCreatorWithoutPayload;
+  wsDisconnect: ActionCreatorWithoutPayload;
+};
+
+export const socketMiddleware = (wsActions: TWsAction): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
 
     return (next) => (action) => {
       const { dispatch } = store;
@@ -56,7 +75,12 @@ export const socketMiddleware = (wsActions) => {
         };
 
         if (wsSendMessage && type === wsSendMessage.type) {
-          setTimeout(socket.send(JSON.stringify(action.payload), 1000));
+          const set: ReturnType<typeof setTimeout> = setTimeout(
+            () => (socket ? socket.send(JSON.stringify(action.payload)) : null),
+            1000
+          );
+          clearTimeout(set);
+          //setTimeout(socket.send(JSON.stringify(action.payload)), 1000);
         }
 
         if (wsDisconnect.type === type) {

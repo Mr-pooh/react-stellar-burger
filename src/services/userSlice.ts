@@ -3,26 +3,26 @@ import { login, logout, patchUser, register } from "./actions";
 
 interface ICounterState {
   user: null | {
-    email: string,
-    password: string,
-  },
-  hasError: null| string | unknown,
-  isAuthChecked: boolean,
-  loading: boolean,
+    email: string;
+    password: string;
+  };
+  hasError: null | string | unknown;
+  isAuthChecked: boolean;
+  loading: boolean;
 }
 
-interface ILog{
-  email: string,
-  password: string,
-  name?: string
+interface ILog {
+  email: string;
+  password: string;
+  name?: string;
 }
 
-const initialState: ICounterState  = {
+const initialState: ICounterState = {
   user: null,
   hasError: null,
   isAuthChecked: false,
   loading: false,
-}
+};
 
 const userSlice = createSlice({
   name: "user",
@@ -41,10 +41,13 @@ const userSlice = createSlice({
         state.hasError = null;
         state.loading = true;
       })
-      .addCase(login.rejected, (state, action: PayloadAction<ILog | unknown | null>) => {
-        state.hasError = action.payload;
-        state.loading = false;
-      })
+      .addCase(
+        login.rejected,
+        (state, action: PayloadAction<ILog | unknown | null>) => {
+          state.hasError = action.payload;
+          state.loading = false;
+        }
+      )
       .addCase(login.fulfilled, (state, action: PayloadAction<ILog>) => {
         state.user = action.payload;
         state.isAuthChecked = true;

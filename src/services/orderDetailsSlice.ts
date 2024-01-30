@@ -1,13 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { orderDetailsApi } from "./actions";
+import { RootState } from "./store";
+
+interface IInitialState {
+  loading: boolean;
+  hasError: null | string | undefined | unknown;
+  data: any;
+}
+
+const initialState: IInitialState = {
+  loading: false,
+  hasError: null,
+  data: null,
+};
 
 const orderDetailsSlice = createSlice({
   name: "orderDetails",
-  initialState: {
-    loading: false,
-    hasError: null,
-    data: null,
-  },
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(orderDetailsApi.pending, (state, action) => {
@@ -25,7 +35,7 @@ const orderDetailsSlice = createSlice({
   },
 });
 
-export const getStoreOrderDetails = (store) => ({
+export const getStoreOrderDetails = (store: RootState) => ({
   loading: store.orderDetails.loading,
   hasError: store.orderDetails.hasError,
   data: store.orderDetails.data,

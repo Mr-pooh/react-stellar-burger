@@ -1,12 +1,21 @@
-import { useSelector } from "react-redux";
+import { FC } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import { useAppSelector } from "../utils/hooks";
 
-const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
+interface IProtectedRouteElement {
+  onlyUnAuth: boolean;
+  component: any;
+}
+
+const ProtectedRouteElement: FC<IProtectedRouteElement> = ({
+  onlyUnAuth = false,
+  component,
+}) => {
   // isAuthChecked это флаг, показывающий что проверка токена произведена
   // при этом результат этой проверки не имеет значения, важно только,
   // что сам факт проверки имел место.
-  const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
-  const user = useSelector((store) => store.user.user);
+  const isAuthChecked = useAppSelector((store) => store.user.isAuthChecked);
+  const user = useAppSelector((store) => store.user.user);
   const location = useLocation();
 
   if (!isAuthChecked) {
@@ -33,6 +42,6 @@ const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
 };
 
 export const OnlyAuth = ProtectedRouteElement;
-export const OnlyUnAuth = ({ component }) => (
+export const OnlyUnAuth = ({ component }: any) => (
   <ProtectedRouteElement onlyUnAuth={true} component={component} />
 );

@@ -1,26 +1,25 @@
 import { NORMA_API } from "./api";
 import { checkReponse } from "./checkResponse";
 
-export type IBody=  {
-  email?: string,
-  token?: string,
-  password?: string,
-  name?: string,
-}
+export type IBody = {
+  email?: string;
+  token?: string;
+  password?: string;
+  name?: string;
+};
 
 export type TAuth = {
-  method?: string,
+  method?: string;
   headers?: {
-    'Content-Type': string,
-    authorization?: string,
-  },
-  body?: any
-}
+    "Content-Type": string;
+    authorization?: string;
+  };
+  body?: any;
+};
 
 export interface IRefreshToken {
-  readonly url: string,
-  options: any,
-  
+  readonly url: string;
+  options: any;
 }
 
 export const getUser = ({ method, body }: TAuth) => ({
@@ -35,7 +34,7 @@ export const getUser = ({ method, body }: TAuth) => ({
   },
 });
 
-export function getForgotPassword(email: IBody):Promise<object> {
+export function getForgotPassword(email: IBody) {
   return fetch(`${NORMA_API}/password-reset`, {
     method: "POST",
     headers: {
@@ -47,7 +46,7 @@ export function getForgotPassword(email: IBody):Promise<object> {
   }).then(checkReponse);
 }
 
-export function getResetPassword({ password, token }: IBody):Promise<any> {
+export function getResetPassword({ password, token }: IBody) {
   return fetch(`${NORMA_API}/password-reset/reset`, {
     method: "POST",
     headers: {
@@ -60,7 +59,7 @@ export function getResetPassword({ password, token }: IBody):Promise<any> {
   }).then(checkReponse);
 }
 
-export function getLogin({ email, password }: IBody):Promise<any> {
+export function getLogin({ email, password }: IBody) {
   return fetch(`${NORMA_API}/auth/login`, {
     method: "POST",
     headers: {
@@ -73,7 +72,7 @@ export function getLogin({ email, password }: IBody):Promise<any> {
   }).then(checkReponse);
 }
 
-export function getLogout():Promise<any> {
+export function getLogout() {
   return fetch(`${NORMA_API}/auth/logout`, {
     method: "POST",
     headers: {
@@ -85,7 +84,7 @@ export function getLogout():Promise<any> {
   }).then(checkReponse);
 }
 
-export function getRegister({ name, email, password }: IBody): Promise<any> {
+export function getRegister({ name, email, password }: IBody) {
   return fetch(`${NORMA_API}/auth/register`, {
     method: "POST",
     headers: {
@@ -99,7 +98,7 @@ export function getRegister({ name, email, password }: IBody): Promise<any> {
   }).then(checkReponse);
 }
 
-export const refreshToken = (): Promise<any> => {
+export const refreshToken = () => {
   return fetch(`${NORMA_API}/auth/token`, {
     method: "POST",
     headers: {
@@ -111,7 +110,7 @@ export const refreshToken = (): Promise<any> => {
   }).then(checkReponse);
 };
 
-export const fetchWithRefresh = async ({ url, options }: IRefreshToken):Promise<any> => {
+export const fetchWithRefresh = async ({ url, options }: IRefreshToken) => {
   try {
     const res = await fetch(url, options);
     return await checkReponse(res);
