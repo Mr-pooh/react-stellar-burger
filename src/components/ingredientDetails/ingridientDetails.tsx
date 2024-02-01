@@ -33,7 +33,6 @@ const IngridientDetails: FC = () => {
 
   const background = location.state && location.state.background;
 
-  console.log(background);
   return (
     <div
       className={

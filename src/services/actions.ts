@@ -1,5 +1,5 @@
 import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
-import { setUser, setAuthChecked } from "./userSlice";
+import { setUser, setAuthChecked, ILog } from "./userSlice";
 import { getIngridient } from "../utils/burger-api";
 import {
   IBody,
@@ -15,9 +15,11 @@ import { TIngredient, TOrders } from "../utils/types";
 
 export const userAuth = () => {
   return (dispatch: AppDispatch) => {
-    return fetchWithRefresh(getUser({ method: "GET" })).then((res: any) => {
-      dispatch(setUser(res.user));
-    });
+    return fetchWithRefresh(getUser({ method: "GET" })).then(
+      (res: { user: ILog; success: boolean }) => {
+        dispatch(setUser(res.user));
+      }
+    );
   };
 };
 

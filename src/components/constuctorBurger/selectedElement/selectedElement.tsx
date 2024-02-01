@@ -10,7 +10,7 @@ import { TIngredient } from "../../../utils/types";
 interface ISelecterElement {
   id: string;
   index: number;
-  moveCard: any;
+  moveCard: (dragIndex?: number, hoverIndex?: number) => void;
   name: string;
   price: number;
   image: string;

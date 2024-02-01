@@ -17,13 +17,13 @@ export type TIngredient = {
 };
 
 export type TOrder = {
-  _id: string;
-  ingredients: TIngredient[];
-  status: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  number: number;
+  readonly _id: string;
+  readonly ingredients: TIngredient[];
+  readonly status: string;
+  readonly name: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly number: number;
 };
 
 export type TOrders = {

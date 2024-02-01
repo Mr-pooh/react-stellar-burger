@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { login, logout, patchUser, register } from "./actions";
 
-interface ICounterState {
+export interface ICounterState {
   user: null | {
     email?: string;
     password?: string;
@@ -12,7 +12,7 @@ interface ICounterState {
   loading: boolean;
 }
 
-interface ILog {
+export interface ILog {
   email: string;
   password: string;
   name?: string;
