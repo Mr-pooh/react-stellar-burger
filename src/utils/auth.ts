@@ -14,12 +14,12 @@ export type TAuth = {
     "Content-Type": string;
     authorization?: string;
   };
-  body?: any;
+  body?: string;
 };
 
-export interface IRefreshToken {
+export type IRefreshToken = {
   readonly url: string;
-  options: any;
+  options: TAuth
 }
 
 export const getUser = ({ method, body }: TAuth) => ({
@@ -123,7 +123,7 @@ export const fetchWithRefresh = async ({ url, options }: IRefreshToken) => {
       }
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       localStorage.setItem("accessToken", refreshData.accessToken);
-      options.headers.authorization = refreshData.accessToken;
+      if(options.headers) options.headers.authorization = refreshData.accessToken;
       const res = await fetch(url, options); //повторяем запрос
       return await checkReponse(res);
     } else {
