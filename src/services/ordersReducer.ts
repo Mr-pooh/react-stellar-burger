@@ -1,12 +1,12 @@
 import { PayloadAction, createReducer } from "@reduxjs/toolkit";
 import { TWebSock, WebsocketStatus } from "../utils/wsUtil";
 import { wsConnecting, wsOpen, wsClose, wsError, wsMessage } from "./actions";
-import { TOrder } from "../utils/types";
+import { TOrders } from "../utils/types";
 import { RootState } from "./store";
 
 interface IInitialState {
   status: TWebSock | string;
-  ordersFeed: Array<TOrder> | null | undefined;
+  ordersFeed: TOrders | null;
   connectingError: string | unknown;
 }
 
@@ -31,7 +31,7 @@ export const ordersAllReducer = createReducer(initialState, (builder) => {
     .addCase(wsError, (state, action: PayloadAction<string>) => {
       state.connectingError = action.payload;
     })
-    .addCase(wsMessage, (state, action: PayloadAction<any>) => {
+    .addCase(wsMessage, (state, action: PayloadAction<TOrders>) => {
       state.ordersFeed = action.payload;
     });
 });

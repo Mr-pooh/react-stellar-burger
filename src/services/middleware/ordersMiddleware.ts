@@ -80,7 +80,6 @@ export const socketMiddleware = (wsActions: TWsAction): Middleware => {
             1000
           );
           clearTimeout(set);
-          //setTimeout(socket.send(JSON.stringify(action.payload)), 1000);
         }
 
         if (wsDisconnect.type === type) {

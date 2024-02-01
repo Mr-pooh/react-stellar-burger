@@ -34,7 +34,7 @@ export const getUser = ({ method, body }: TAuth) => ({
   },
 });
 
-export function getForgotPassword(email: IBody) {
+export function getForgotPassword(email: IBody | string) {
   return fetch(`${NORMA_API}/password-reset`, {
     method: "POST",
     headers: {

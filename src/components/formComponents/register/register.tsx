@@ -1,0 +1,70 @@
+import { ChangeEvent, FC, FormEventHandler } from "react";
+import styles from "../form.module.css";
+import {
+  Button,
+  PasswordInput,
+  EmailInput,
+  Input,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link } from "react-router-dom";
+import { register } from "../../../services/actions";
+import { useAppDispatch, useForm } from "../../../utils/hooks";
+
+const Register: FC = () => {
+  const dispatch = useAppDispatch();
+
+  const { values, handleChange } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChange(e);
+  };
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = () => {
+    dispatch(register(values));
+  };
+
+  return (
+    <form className={styles.form} onSubmit={onSubmit}>
+      <h1 className={styles.title + ` text text_type_main-large`}>
+        Регистрация
+      </h1>
+      <Input
+        name={"name"}
+        value={values.name}
+        onChange={onChange}
+        placeholder={"Имя"}
+        autoComplete="on"
+      />
+      <EmailInput
+        onChange={onChange}
+        value={values.email}
+        name={"email"}
+        isIcon={false}
+        autoComplete="on"
+      />
+      <PasswordInput
+        onChange={onChange}
+        value={values.password}
+        name={"password"}
+        extraClass="mb-2"
+      />
+      <Button htmlType="submit" type="primary" size="medium">
+        Зарегестрироваться
+      </Button>
+      <div className={styles.text}>
+        <p className={`text text_type_main-default text_color_inactive`}>
+          Уже зарегистрированы?
+          <Link to={"/login"} className={styles.link}>
+            Войти
+          </Link>
+        </p>
+      </div>
+    </form>
+  );
+};
+
+export default Register;

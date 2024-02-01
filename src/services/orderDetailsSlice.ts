@@ -1,11 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { orderDetailsApi } from "./actions";
 import { RootState } from "./store";
+import { TDeteils } from "../utils/types";
 
 interface IInitialState {
   loading: boolean;
-  hasError: null | string | undefined | unknown;
-  data: any;
+  hasError: null | unknown;
+  data: null | TDeteils;
 }
 
 const initialState: IInitialState = {
@@ -20,18 +21,24 @@ const orderDetailsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(orderDetailsApi.pending, (state, action) => {
+      .addCase(orderDetailsApi.pending, (state) => {
         state.loading = true;
         state.hasError = null;
       })
-      .addCase(orderDetailsApi.rejected, (state, action) => {
-        state.loading = false;
-        state.hasError = action.payload;
-      })
-      .addCase(orderDetailsApi.fulfilled, (state, action) => {
-        state.loading = false;
-        state.data = action.payload;
-      });
+      .addCase(
+        orderDetailsApi.rejected,
+        (state, action: PayloadAction<string | unknown>) => {
+          state.loading = false;
+          state.hasError = action.payload;
+        }
+      )
+      .addCase(
+        orderDetailsApi.fulfilled,
+        (state, action: PayloadAction<TDeteils>) => {
+          state.loading = false;
+          state.data = action.payload;
+        }
+      );
   },
 });
 

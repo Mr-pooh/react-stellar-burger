@@ -40,7 +40,7 @@ const initialSlice = createSlice({
       .addCase(
         initialIngridient.fulfilled,
         (state, action: PayloadAction<IDataArr<TIngredient>>) => {
-          action.payload.data.map((item: TIngredient) => state.data.push(item));
+          action.payload.data.map((item) => state.data.push(item));
         }
       );
   },

@@ -13,11 +13,12 @@ export type TIngredient = {
   readonly __v: number;
   id?: string;
   key?: string;
+  index?: number;
 };
 
 export type TOrder = {
   _id: string;
-  ingredients: Array<string>;
+  ingredients: TIngredient[];
   status: string;
   name: string;
   createdAt: string;
@@ -36,4 +37,12 @@ export type TUser = {
   user?: string;
   accessToken: string;
   refreshToken: string;
+};
+
+export type TDeteils = {
+  order: TOrder;
+};
+
+export type TUseForm = {
+  [key: string]: string;
 };

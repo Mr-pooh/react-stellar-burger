@@ -1,7 +1,7 @@
 import { NORMA_API } from "./api";
 import { checkReponse } from "./checkResponse";
 
-export function getOrderNumber(number: number) {
+export function getOrderNumber(number: string | undefined) {
   return fetch(`${NORMA_API}/orders/${number}`, {
     method: "GET",
     headers: {

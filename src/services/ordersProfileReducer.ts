@@ -7,12 +7,12 @@ import {
   wsMessageProfile,
   wsOpenProfile,
 } from "./actions";
-import { TOrder } from "../utils/types";
+import { TOrders } from "../utils/types";
 import { RootState } from "./store";
 
 interface IInitialState {
   status: TWebSock | string;
-  ordersFeed: Array<TOrder> | null | undefined;
+  ordersFeed: TOrders | null | undefined;
   connectingError: string | unknown;
 }
 
@@ -37,7 +37,7 @@ export const ordersProfileReducer = createReducer(initialState, (builder) => {
     .addCase(wsErrorProfile, (state, action: PayloadAction<string>) => {
       state.connectingError = action.payload;
     })
-    .addCase(wsMessageProfile, (state, action: PayloadAction<any>) => {
+    .addCase(wsMessageProfile, (state, action: PayloadAction<TOrders>) => {
       state.ordersFeed = action.payload;
     });
 });

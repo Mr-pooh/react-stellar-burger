@@ -1,10 +1,10 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../utils/hooks";
 
 interface IProtectedRouteElement {
-  onlyUnAuth: boolean;
-  component: any;
+  onlyUnAuth?: boolean;
+  component: ReactElement;
 }
 
 const ProtectedRouteElement: FC<IProtectedRouteElement> = ({
@@ -42,6 +42,6 @@ const ProtectedRouteElement: FC<IProtectedRouteElement> = ({
 };
 
 export const OnlyAuth = ProtectedRouteElement;
-export const OnlyUnAuth = ({ component }: any) => (
+export const OnlyUnAuth: FC<IProtectedRouteElement> = ({ component }) => (
   <ProtectedRouteElement onlyUnAuth={true} component={component} />
 );

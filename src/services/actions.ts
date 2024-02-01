@@ -11,7 +11,7 @@ import {
 } from "../utils/auth";
 import { orderApi } from "../utils/order-api";
 import { AppDispatch } from "./store";
-import { TOrders, TUser } from "../utils/types";
+import { TIngredient, TOrders } from "../utils/types";
 
 export const userAuth = () => {
   return (dispatch: AppDispatch) => {
@@ -83,7 +83,7 @@ export const initialIngridient = createAsyncThunk("initial/cart", async () => {
 
 export const orderDetailsApi = createAsyncThunk(
   "orderDetails/api",
-  async (ingredients: any) => {
+  async (ingredients: TIngredient[] | string[]) => {
     return await fetchWithRefresh(orderApi(ingredients));
   }
 );

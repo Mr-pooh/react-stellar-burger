@@ -3,8 +3,9 @@ import { login, logout, patchUser, register } from "./actions";
 
 interface ICounterState {
   user: null | {
-    email: string;
-    password: string;
+    email?: string;
+    password?: string;
+    name?: string;
   };
   hasError: null | string | unknown;
   isAuthChecked: boolean;
